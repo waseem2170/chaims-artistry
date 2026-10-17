@@ -64,7 +64,7 @@ section[id]{scroll-margin-top:12px}
 .signature-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at center,#350b12,#150406 75%);color:var(--gold2);pointer-events:none;animation:signature-exit .8s ease-in-out 4.22s forwards}
 .signature-lockup{width:min(84vw,600px);}
 .signature-mark{display:block;width:100%;height:auto;overflow:visible}
-.signature-stroke{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;animation:signature-write var(--draw-time) linear var(--draw-delay) forwards,signature-unwrite calc(var(--draw-time) * .4) linear calc(3.16s + var(--draw-delay) * .4) forwards}
+.signature-stroke{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;animation:var(--signature-motion) 4.18s linear both}
 .signature-flourish{stroke-width:1.5}
 @keyframes signature-write{from{opacity:1;stroke-dashoffset:1}to{opacity:1;stroke-dashoffset:0}}
 @keyframes signature-unwrite{0%{opacity:1;stroke-dashoffset:0}99.9%{opacity:1}100%{opacity:0;stroke-dashoffset:-1}}
@@ -73,8 +73,8 @@ section[id]{scroll-margin-top:12px}
 @media print{.signature-intro{display:none}}
 
 /* The gold line tip selects a single enlarged tile. */
-.prep-grid.scroll-animated .prep-step{transition:border-color .18s ease-out}
-.prep-grid.scroll-animated .prep-step.is-current{border-color:var(--gold);z-index:1}
+.prep-grid.scroll-animated .prep-step{transition:none;border-color:rgba(223,181,142,.5);border-width:1.5px}
+.prep-grid.scroll-animated .prep-step.is-current{z-index:1}
 @media(prefers-reduced-motion:reduce){.prep-grid.scroll-animated .prep-step{transition:none}}
 
 /* Small brand name beneath the handwritten Chaims signature. */
@@ -102,3 +102,12 @@ section[id]{scroll-margin-top:12px}
 .signature-mark{contain:paint}
 .prep-progress{will-change:transform}
 .prep-grid.scroll-animated .prep-step{backface-visibility:hidden}
+
+/* One continuous animation per stroke, erasing along the writing direction from left to right. */
+@keyframes signature-path-0{0%,2.36842%{opacity:0;stroke-dashoffset:1}2.39234%{opacity:1;stroke-dashoffset:1}15.55024%,76.55502%{opacity:1;stroke-dashoffset:0}81.79426%{opacity:1}81.81818%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
+@keyframes signature-path-1{0%,15.52632%{opacity:0;stroke-dashoffset:1}15.55024%{opacity:1;stroke-dashoffset:1}25.11962%,81.81818%{opacity:1;stroke-dashoffset:0}85.62201%{opacity:1}85.64593%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
+@keyframes signature-path-2{0%,25.09569%{opacity:0;stroke-dashoffset:1}25.11962%{opacity:1;stroke-dashoffset:1}31.10048%,85.64593%{opacity:1;stroke-dashoffset:0}88.01435%{opacity:1}88.03828%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
+@keyframes signature-path-3{0%,31.07656%{opacity:0;stroke-dashoffset:1}31.10048%{opacity:1;stroke-dashoffset:1}35.88517%,88.03828%{opacity:1;stroke-dashoffset:0}89.92823%{opacity:1}89.95215%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
+@keyframes signature-path-4{0%,35.86124%{opacity:0;stroke-dashoffset:1}35.88517%{opacity:1;stroke-dashoffset:1}44.25837%,89.95215%{opacity:1;stroke-dashoffset:0}93.27751%{opacity:1}93.30144%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
+@keyframes signature-path-5{0%,44.23445%{opacity:0;stroke-dashoffset:1}44.25837%{opacity:1;stroke-dashoffset:1}53.82775%,93.30144%{opacity:1;stroke-dashoffset:0}97.10526%{opacity:1}97.12919%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
+@keyframes signature-path-6{0%,53.80383%{opacity:0;stroke-dashoffset:1}53.82775%{opacity:1;stroke-dashoffset:1}61.00478%,97.12919%{opacity:1;stroke-dashoffset:0}99.97608%{opacity:1}100.00000%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
