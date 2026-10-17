@@ -61,13 +61,13 @@ section[id]{scroll-margin-top:12px}
 @media(prefers-reduced-motion:reduce){.prep-grid.scroll-animated .prep-step{opacity:1;transform:none}}
 
 /* Original signature writes on, erases left to right, then the screen dissolves. */
-.signature-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at center,#350b12,#150406 75%);color:var(--gold2);pointer-events:none;animation:signature-exit .8s ease-in-out 4.22s forwards}
+.signature-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at center,#350b12,#150406 75%);color:var(--gold2);pointer-events:none;animation:signature-exit .8s ease-in-out 4.05s forwards}
 .signature-lockup{width:min(84vw,600px);}
 .signature-mark{display:block;width:100%;height:auto;overflow:visible}
-.signature-stroke{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;animation:var(--signature-motion) 4.18s linear both}
+.signature-stroke{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;animation:signature-write var(--draw-time) linear var(--draw-delay) forwards}
 .signature-flourish{stroke-width:1.5}
 @keyframes signature-write{from{opacity:1;stroke-dashoffset:1}to{opacity:1;stroke-dashoffset:0}}
-@keyframes signature-unwrite{0%{opacity:1;stroke-dashoffset:0}99.9%{opacity:1}100%{opacity:0;stroke-dashoffset:-1}}
+
 @keyframes signature-exit{from{opacity:1}to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){.signature-intro{display:none}}
 @media print{.signature-intro{display:none}}
@@ -79,7 +79,7 @@ section[id]{scroll-margin-top:12px}
 
 /* Small brand name beneath the handwritten Chaims signature. */
 .signature-lockup{text-align:center}
-.signature-caption{display:block;margin-top:8px;color:var(--gold2);font:400 clamp(19px,2.7vw,25px)/1.5 'Baskerville','Palatino Linotype','Book Antiqua',Georgia,serif;letter-spacing:.09em;opacity:0;animation:signature-caption-in .4s ease 1.95s forwards,signature-caption-out .18s ease 4s forwards}
+.signature-caption{display:block;margin-top:8px;color:var(--gold2);font:400 clamp(19px,2.7vw,25px)/1.5 'Baskerville','Palatino Linotype','Book Antiqua',Georgia,serif;letter-spacing:.09em;opacity:0;animation:signature-caption-in .4s ease 1.95s forwards,signature-caption-out .18s ease 3.87s forwards}
 @keyframes signature-caption-in{to{opacity:1}}
 
 /* Selected concept 03: fine monoline signature and a spaced serif caption. */
@@ -92,7 +92,7 @@ section[id]{scroll-margin-top:12px}
 /* Quiet welcome with a softly appearing gold frame. */
 .signature-intro::before{content:"";position:absolute;inset:clamp(16px,3vw,38px);border:1px solid rgba(239,209,170,.7);opacity:0;pointer-events:none;animation:signature-frame-in 1.2s ease-out .15s forwards}
 .signature-lockup{position:relative;width:min(80vw,640px)}
-.signature-welcome{display:block;margin-bottom:clamp(30px,6vh,65px);font:400 clamp(20px,2.5vw,28px)/1.4 'Baskerville','Palatino Linotype',Georgia,serif;letter-spacing:.16em;color:#efd1aa;opacity:0;animation:signature-welcome-in .8s ease-out .3s forwards,signature-caption-out .18s ease 4s forwards}
+.signature-welcome{display:block;margin-bottom:clamp(30px,6vh,65px);font:400 clamp(20px,2.5vw,28px)/1.4 'Baskerville','Palatino Linotype',Georgia,serif;letter-spacing:.16em;color:#efd1aa;opacity:0;animation:signature-welcome-in .8s ease-out .3s forwards,signature-caption-out .18s ease 3.87s forwards}
 @keyframes signature-frame-in{from{opacity:0}to{opacity:1}}
 @keyframes signature-welcome-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-height:500px){.signature-lockup{width:min(65vw,400px)}.signature-welcome{margin-bottom:16px;font-size:18px}.signature-caption{margin-top:12px;font-size:13px}}
@@ -104,10 +104,6 @@ section[id]{scroll-margin-top:12px}
 .prep-grid.scroll-animated .prep-step{backface-visibility:hidden}
 
 /* One continuous animation per stroke, erasing along the writing direction from left to right. */
-@keyframes signature-path-0{0%,2.36842%{opacity:0;stroke-dashoffset:1}2.39234%{opacity:1;stroke-dashoffset:1}15.55024%,76.55502%{opacity:1;stroke-dashoffset:0}81.79426%{opacity:1}81.81818%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
-@keyframes signature-path-1{0%,15.52632%{opacity:0;stroke-dashoffset:1}15.55024%{opacity:1;stroke-dashoffset:1}25.11962%,81.81818%{opacity:1;stroke-dashoffset:0}85.62201%{opacity:1}85.64593%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
-@keyframes signature-path-2{0%,25.09569%{opacity:0;stroke-dashoffset:1}25.11962%{opacity:1;stroke-dashoffset:1}31.10048%,85.64593%{opacity:1;stroke-dashoffset:0}88.01435%{opacity:1}88.03828%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
-@keyframes signature-path-3{0%,31.07656%{opacity:0;stroke-dashoffset:1}31.10048%{opacity:1;stroke-dashoffset:1}35.88517%,88.03828%{opacity:1;stroke-dashoffset:0}89.92823%{opacity:1}89.95215%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
-@keyframes signature-path-4{0%,35.86124%{opacity:0;stroke-dashoffset:1}35.88517%{opacity:1;stroke-dashoffset:1}44.25837%,89.95215%{opacity:1;stroke-dashoffset:0}93.27751%{opacity:1}93.30144%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
-@keyframes signature-path-5{0%,44.23445%{opacity:0;stroke-dashoffset:1}44.25837%{opacity:1;stroke-dashoffset:1}53.82775%,93.30144%{opacity:1;stroke-dashoffset:0}97.10526%{opacity:1}97.12919%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
-@keyframes signature-path-6{0%,53.80383%{opacity:0;stroke-dashoffset:1}53.82775%{opacity:1;stroke-dashoffset:1}61.00478%,97.12919%{opacity:1;stroke-dashoffset:0}99.97608%{opacity:1}100.00000%{opacity:0;stroke-dashoffset:-1}100%{opacity:0;stroke-dashoffset:-1}}
+
+/* Erase with the same positive dash animation as writing, on a separate mask. */
+.signature-eraser{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;animation:signature-write var(--erase-time) linear var(--erase-delay) forwards}
