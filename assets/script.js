@@ -54,35 +54,51 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const prepProgress = prepTimeline.querySelector('.prep-progress');
 const clampPrep = value => Math.max(0, Math.min(1, value));
 const smoothPrep = value => value * value * (3 - 2 * value);
+// One rendering loop: read geometry first, then update visual styles.
+let prepFrame = 0;
+let prepLastTime = 0;
+const prepScales = prepSteps.map(() => 1);
 function updatePrepProgress() {
+  if (!prepFrame) prepFrame = requestAnimationFrame(renderPrepFrame);
+}
+function renderPrepFrame(time) {
+  prepFrame = 0;
+  const elapsed = prepLastTime ? Math.min(64, time - prepLastTime) : 16.67;
+  prepLastTime = time;
   const rect = prepTimeline.getBoundingClientRect();
   const viewport = window.innerHeight;
-  const lineHeight = selectedPrepTile
-    ? selectedPrepTile.offsetTop + selectedPrepTile.offsetHeight / 2
-    : viewport * 0.78 - rect.top;
-  const progress = clampPrep(lineHeight / rect.height);
-  prepProgress.style.transform = `scaleY(${progress})`;
   const mobile = window.innerWidth <= 700;
-  // Measure layout coordinates, unaffected by the animated transforms.
-  const centers = prepSteps.map(step => rect.top + step.offsetTop + step.offsetHeight / 2);
+  // Complete every layout read before writing any styles.
+  const offsets = prepSteps.map(step => step.offsetTop + step.offsetHeight / 2);
+  const selectedIndex = prepSteps.indexOf(selectedPrepTile);
+  const lineHeight = selectedIndex >= 0 ? offsets[selectedIndex] : viewport * 0.78 - rect.top;
+  const progress = clampPrep(lineHeight / Math.max(1, rect.height));
+  const centers = offsets.map(offset => rect.top + offset);
   const lineTip = rect.top + progress * rect.height;
-  // Only the tile nearest the gold line's tip is emphasized.
   let activeIndex = -1;
   if (progress > 0 && progress < 1) {
     activeIndex = centers.reduce((nearest, center, index) =>
       Math.abs(center - lineTip) < Math.abs(centers[nearest] - lineTip) ? index : nearest, 0);
   }
+  const blend = reducedMotion.matches ? 1 : 1 - Math.exp(-elapsed / 65);
+  let settling = false;
+  prepProgress.style.transform = `scaleY(${progress})`;
   prepSteps.forEach((step, index) => {
-    const center = centers[index];
     const active = index === activeIndex;
-    const reveal = reducedMotion.matches || active ? 1 : smoothPrep(clampPrep((viewport * 0.98 - center) / (viewport * 0.25)));
-    const scale = reducedMotion.matches ? 1 : active ? (mobile ? 1.035 : 1.06) : 0.93;
-    step.classList.toggle('is-current', active);
+    // Finish revealing before the gold line reaches the tile: no opacity jump on selection.
+    const reveal = reducedMotion.matches ? 1 : smoothPrep(clampPrep((viewport * 1.08 - centers[index]) / (viewport * 0.2)));
+    const targetScale = reducedMotion.matches ? 1 : active ? (mobile ? 1.035 : 1.06) : 0.93;
+    prepScales[index] += (targetScale - prepScales[index]) * blend;
+    if (Math.abs(targetScale - prepScales[index]) < 0.0005) prepScales[index] = targetScale;
+    else settling = true;
     const direction = index % 2 === 0 ? -1 : 1;
+    step.classList.toggle('is-current', active);
     step.style.setProperty('--prep-x', `${direction * (mobile ? 16 : 36) * (1 - reveal)}px`);
-    step.style.setProperty('--prep-scale', scale);
-    step.style.setProperty('--prep-opacity', reveal);
+    step.style.setProperty('--prep-scale', prepScales[index].toFixed(4));
+    step.style.setProperty('--prep-opacity', reveal.toFixed(4));
   });
+  if (settling) updatePrepProgress();
+  else prepLastTime = 0;
 }
 // Manual scrolling resumes the scroll-following line after a tile selection.
 function releasePrepSelection() {
@@ -98,15 +114,17 @@ window.addEventListener('keydown', event => {
     releasePrepSelection();
   }
 });
-let prepFramePending = false;
-window.addEventListener('scroll', () => {
-  if (!prepFramePending) {
-    prepFramePending = true;
-    requestAnimationFrame(() => { updatePrepProgress(); prepFramePending = false; });
-  }
-}, { passive: true });
+window.addEventListener('scroll', updatePrepProgress, { passive: true });
 window.addEventListener('resize', updatePrepProgress);
 reducedMotion.addEventListener('change', updatePrepProgress);
 if ('ResizeObserver' in window) new ResizeObserver(updatePrepProgress).observe(prepTimeline);
-updatePrepProgress();
 prepTimeline.classList.add('scroll-animated');
+updatePrepProgress();
+
+// Remove the finished fullscreen intro from painting and hit testing entirely.
+const signatureIntro = document.querySelector('.signature-intro');
+signatureIntro?.addEventListener('animationend', event => {
+  if (event.target === signatureIntro && event.animationName === 'signature-exit') {
+    signatureIntro.remove();
+  }
+});

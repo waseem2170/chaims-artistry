@@ -56,15 +56,15 @@ section[id]{scroll-margin-top:12px}
 
 /* Scroll-linked transforms are reversible and do not change document layout. */
 .preparation{overflow-x:clip}
-.prep-grid.scroll-animated .prep-step{opacity:var(--prep-opacity,1);transform:translateX(var(--prep-x,0px)) scale(var(--prep-scale,1));transform-origin:center;transition:none}
+.prep-grid.scroll-animated .prep-step{opacity:var(--prep-opacity,1);transform:translate3d(var(--prep-x,0px),0,0) scale(var(--prep-scale,1));transform-origin:center;transition:none}
 .prep-grid.scroll-animated .prep-step:focus-within{opacity:1}
 @media(prefers-reduced-motion:reduce){.prep-grid.scroll-animated .prep-step{opacity:1;transform:none}}
 
 /* Original signature writes on, erases left to right, then the screen dissolves. */
-.signature-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at center,#350b12,#150406 75%);color:var(--gold2);pointer-events:none;animation:signature-exit .5s ease-in-out 4.22s forwards}
+.signature-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at center,#350b12,#150406 75%);color:var(--gold2);pointer-events:none;animation:signature-exit .8s ease-in-out 4.22s forwards}
 .signature-lockup{width:min(84vw,600px);}
 .signature-mark{display:block;width:100%;height:auto;overflow:visible}
-.signature-stroke{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;animation:signature-write var(--draw-time) ease-in-out var(--draw-delay) forwards,signature-unwrite calc(var(--draw-time) * .4) ease-in-out calc(3.16s + var(--draw-delay) * .4) forwards}
+.signature-stroke{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;animation:signature-write var(--draw-time) linear var(--draw-delay) forwards,signature-unwrite calc(var(--draw-time) * .4) linear calc(3.16s + var(--draw-delay) * .4) forwards}
 .signature-flourish{stroke-width:1.5}
 @keyframes signature-write{from{opacity:1;stroke-dashoffset:1}to{opacity:1;stroke-dashoffset:0}}
 @keyframes signature-unwrite{0%{opacity:1;stroke-dashoffset:0}99.9%{opacity:1}100%{opacity:0;stroke-dashoffset:-1}}
@@ -73,7 +73,7 @@ section[id]{scroll-margin-top:12px}
 @media print{.signature-intro{display:none}}
 
 /* The gold line tip selects a single enlarged tile. */
-.prep-grid.scroll-animated .prep-step{transition:transform .22s ease-out,border-color .22s ease-out}
+.prep-grid.scroll-animated .prep-step{transition:border-color .18s ease-out}
 .prep-grid.scroll-animated .prep-step.is-current{border-color:var(--gold);z-index:1}
 @media(prefers-reduced-motion:reduce){.prep-grid.scroll-animated .prep-step{transition:none}}
 
@@ -96,3 +96,9 @@ section[id]{scroll-margin-top:12px}
 @keyframes signature-frame-in{from{opacity:0}to{opacity:1}}
 @keyframes signature-welcome-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-height:500px){.signature-lockup{width:min(65vw,400px)}.signature-welcome{margin-bottom:16px;font-size:18px}.signature-caption{margin-top:12px;font-size:13px}}
+
+/* Keep repainting the signature separate from the fullscreen backdrop. */
+.signature-intro{isolation:isolate;will-change:opacity}
+.signature-mark{contain:paint}
+.prep-progress{will-change:transform}
+.prep-grid.scroll-animated .prep-step{backface-visibility:hidden}
