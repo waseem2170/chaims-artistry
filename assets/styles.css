@@ -165,3 +165,11 @@ section[id]{scroll-margin-top:12px}
 @media(min-width:1500px){.velvet-hero .hero-brand{width:570px}}
 @media(max-width:700px){.velvet-hero .hero-brand{width:min(88vw,470px)}}
 @media(max-height:600px) and (min-width:701px){.velvet-hero .hero-brand{width:370px}}
+
+/* Sparse stationary gold stars; independent slow opacity pulses. */
+.intro-stars{position:absolute;inset:0;pointer-events:none;z-index:0}
+.intro-stars span{position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);border-radius:50%;background:#fff1d6;box-shadow:0 0 4px 1px rgba(255,232,190,.65),0 0 10px 3px rgba(239,209,170,.32),0 0 18px 5px rgba(239,209,170,.12);opacity:.12;animation:intro-star-twinkle var(--twinkle) ease-in-out var(--phase) infinite;will-change:opacity}
+.signature-lockup{position:relative;z-index:1}
+@keyframes intro-star-twinkle{0%,100%{opacity:.12}50%{opacity:1}}
+@media(max-width:700px){.intro-stars span:nth-child(n+9){display:none}}
+@media(prefers-reduced-motion:reduce){.intro-stars{display:none}}
