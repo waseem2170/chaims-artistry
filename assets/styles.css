@@ -230,3 +230,8 @@ body:has(.logo-intro):not(.intro-skipped) .fixed-brand{animation:fixed-brand-sho
 .fixed-brand{background:transparent}
 html{scroll-padding-top:135px}
 @media(max-width:700px){html{scroll-padding-top:90px}}
+
+/* More room for the calendar and booking form on phones. */
+@media(max-width:700px){
+ .calendar-frame #booking-calendar{height:max(1100px,145svh);min-height:1100px;max-height:none}
+}
