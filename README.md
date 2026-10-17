@@ -53,3 +53,7 @@ Review all prices, duration, travel fee, preparation advice, and reservation pol
 ## Mobile responsiveness
 
 The site includes layouts for phones (including 320–380px screens), tablets and desktop. On narrow screens, the navigation becomes a touch-friendly menu, service/preparation/contact cards stack vertically, the calendar resizes to the viewport, and text scales to prevent horizontal overflow. Note that Google Calendar's own iframe interface is controlled by Google and may require users to scroll within the calendar on smaller phones.
+
+
+## Velvet hero update
+Upload index.html and the complete assets folder. The hero includes a transparent PNG logo and an optimized fabric background. Falling glitter pauses when the page is hidden or the hero is off screen, and respects reduced-motion preferences. The Gallery menu entry is intentionally deferred until portfolio photos are supplied.

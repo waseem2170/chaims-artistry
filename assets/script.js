@@ -128,3 +128,59 @@ signatureIntro?.addEventListener('animationend', event => {
     signatureIntro.remove();
   }
 });
+
+// Light, time-based falling glitter. A single canvas avoids animating many DOM nodes.
+(() => {
+  const hero = document.querySelector('.velvet-hero');
+  const canvas = hero?.querySelector('.hero-glitter');
+  const context = canvas?.getContext('2d', { alpha: true });
+  if (!context) return;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let width = 0, height = 0, particles = [], frame = 0, last = 0;
+  let visible = false;
+  const random = (a, b) => a + Math.random() * (b - a);
+  function resizeGlitter() {
+    width = hero.clientWidth; height = hero.clientHeight;
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    particles = Array.from({length: width < 701 ? 70 : 150}, () => ({
+      x: random(0, width), y: random(0, height), size: random(.65, 1.65),
+      speed: random(32, 64), drift: random(-7, 9), phase: random(0, Math.PI * 2)
+    }));
+  }
+  function tick(time) {
+    frame = 0;
+    if (!visible || document.hidden || motion.matches) { last = 0; return; }
+    const dt = last ? Math.min((time - last) / 1000, .05) : 0;
+    last = time; context.clearRect(0, 0, width, height);
+    for (const p of particles) {
+      p.y += p.speed * dt; p.x += p.drift * dt;
+      if (p.y > height + 5) { p.y = -5; p.x = random(0, width); }
+      if (p.x < -5) p.x = width + 5;
+      if (p.x > width + 5) p.x = -5;
+      // Centre stays quiet so the logo and button are always clear.
+      const edge = Math.abs(p.x / width - .5) > .25 ? 1 : .55;
+      context.globalAlpha = edge * (.48 + .32 * (1 + Math.sin(time / 1700 + p.phase)) / 2);
+      context.fillStyle = '#efd1aa'; context.beginPath();
+      context.arc(p.x, p.y, p.size, 0, Math.PI * 2); context.fill();
+    }
+    context.globalAlpha = 1;
+    frame = requestAnimationFrame(tick);
+  }
+  function sync() {
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0; last = 0;
+    if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(tick);
+    else context.clearRect(0, 0, width, height);
+  }
+  resizeGlitter();
+  if ('ResizeObserver' in window) new ResizeObserver(resizeGlitter).observe(hero);
+  else window.addEventListener('resize', resizeGlitter);
+  if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting; sync();
+  }).observe(hero);
+  else { visible = true; sync(); }
+  document.addEventListener('visibilitychange', sync);
+  motion.addEventListener('change', sync);
+})();
