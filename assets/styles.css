@@ -173,3 +173,60 @@ section[id]{scroll-margin-top:12px}
 @keyframes intro-star-twinkle{0%,100%{opacity:.12}50%{opacity:1}}
 @media(max-width:700px){.intro-stars span:nth-child(n+9){display:none}}
 @media(prefers-reduced-motion:reduce){.intro-stars{display:none}}
+
+/* Google hosts the iframe: tint its rendered light theme to match the site. */
+.calendar-frame{isolation:isolate;background:#20070a}
+#booking-calendar{background:#fff;filter:invert(1) grayscale(1) sepia(.65);mix-blend-mode:screen;color-scheme:light}
+@media print{#booking-calendar{filter:none;mix-blend-mode:normal}}
+
+/* Keep the booking panel usable within the viewport. */
+.calendar-frame #booking-calendar{height:clamp(420px,70svh,760px)}
+.intro-skip{position:absolute;z-index:3;right:clamp(32px,5vw,70px);bottom:clamp(32px,5vh,60px);pointer-events:auto;background:rgba(32,7,10,.65);border:1px solid rgba(239,209,170,.5);border-radius:30px;color:#efd1aa;padding:10px 22px;font:400 12px/1.5 'DM Sans',Arial,sans-serif;letter-spacing:.15em;cursor:pointer}
+.intro-skip:hover,.intro-skip:focus-visible{background:#4a1620;border-color:#efd1aa}
+.signature-intro.is-skipping{animation:intro-slide-right .75s cubic-bezier(.65,0,.25,1) forwards;will-change:transform}
+.signature-intro.is-skipping *{animation-play-state:paused!important}
+@keyframes intro-slide-right{from{transform:translateX(0);opacity:1}to{transform:translateX(100%);opacity:1;visibility:hidden}}
+
+/* Give Google's booking dialog a larger viewport without scaling its text. */
+.appointments .section-wrap{max-width:1400px}
+.calendar-frame #booking-calendar{height:90svh;min-height:680px;max-height:1100px}
+@media(max-width:700px){
+ .appointments.section{padding-left:12px;padding-right:12px}
+ .calendar-top{padding:18px 16px;font-size:9px;letter-spacing:.12em}
+ .calendar-frame #booking-calendar{height:90svh;min-height:600px;max-height:none}
+}
+
+/* Logo first, then a horizontal opening into the velvet homepage. */
+.signature-intro.logo-intro{background:transparent;animation:logo-intro-finish .35s ease 4.65s forwards;overflow:hidden;pointer-events:auto}
+.logo-intro::before{display:none}
+.intro-shutter{position:absolute;left:0;width:100%;height:50.1%;background:#150406;will-change:transform}
+.intro-shutter-top{top:0;animation:logo-open-top 1.65s cubic-bezier(.65,0,.25,1) 2s both}
+.intro-shutter-bottom{bottom:0;animation:logo-open-bottom 1.65s cubic-bezier(.65,0,.25,1) 2s both}
+.intro-logo-position{position:absolute;left:50%;top:50%;width:min(65vw,430px);transform:translate(-50%,-50%);animation:logo-rise 1.5s cubic-bezier(.65,0,.25,1) 2.65s both;will-change:transform,top}
+.intro-logo-image{display:block;width:100%;height:auto;animation:logo-reveal 1.1s cubic-bezier(.25,.6,.3,1) .15s both}
+@keyframes logo-reveal{from{clip-path:inset(0 100% 0 0);opacity:0;transform:translateY(8px)}to{clip-path:inset(0);opacity:1;transform:translateY(0)}}
+@keyframes logo-open-top{to{transform:translateY(-101%)}}
+@keyframes logo-open-bottom{to{transform:translateY(101%)}}
+@keyframes logo-rise{0%{top:50%;transform:translate(-50%,-50%) scale(1);opacity:1}75%{opacity:1}100%{top:38px;width:140px;transform:translate(-50%,-50%) scale(1);opacity:1}}
+@keyframes logo-intro-finish{to{opacity:0;visibility:hidden}}
+body:has(.logo-intro) .hero-inner{animation:logo-home-content 1.2s ease 3.55s both}
+body:has(.logo-intro) .hero-nav{animation:logo-home-content .8s ease 3.9s both}
+@keyframes logo-home-content{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.signature-intro.logo-intro.is-skipping{background:#150406;animation:intro-slide-right .75s cubic-bezier(.65,0,.25,1) forwards}
+body.intro-skipped .hero-inner,body.intro-skipped .hero-nav{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.signature-intro.logo-intro{display:none}}
+
+/* The intro logo lands on this persistent, centered home link. */
+.fixed-brand{position:fixed;top:38px;left:50%;transform:translate(-50%,-50%);width:140px;z-index:50;line-height:0;border-radius:8px;background:rgba(21,4,6,.86)}
+.fixed-brand img{display:block;width:100%;height:auto}
+.fixed-brand:focus-visible{outline:1px solid #efd1aa;outline-offset:2px}
+body:has(.logo-intro):not(.intro-skipped) .fixed-brand{animation:fixed-brand-show .01s linear 4.15s both}
+@keyframes fixed-brand-show{from{opacity:0}to{opacity:1}}
+@media(min-width:701px){.hero-nav{padding-top:85px;justify-content:center}.hero-nav nav{gap:30px}}
+@media(max-width:380px){.hero-nav .nav-book{right:12px;padding:8px 12px}.hero-nav{padding-left:16px}}
+
+/* Keep the entire navigation visible while scrolling. */
+.hero-nav{position:fixed;top:0;left:0;width:100%;z-index:40;background:rgba(21,4,6,.96);border-bottom:1px solid rgba(239,209,170,.16)}
+.fixed-brand{background:transparent}
+html{scroll-padding-top:135px}
+@media(max-width:700px){html{scroll-padding-top:90px}}

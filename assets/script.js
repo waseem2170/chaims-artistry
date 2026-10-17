@@ -1,13 +1,4 @@
 'use strict';
-// Replace the placeholder below with the public Google Calendar EMBED URL.
-const GOOGLE_CALENDAR_EMBED_URL = 'YOUR_GOOGLE_CALENDAR_EMBED_URL';
-const calendar = document.getElementById('booking-calendar');
-const placeholder = document.getElementById('calendar-placeholder');
-if (GOOGLE_CALENDAR_EMBED_URL !== 'YOUR_GOOGLE_CALENDAR_EMBED_URL' && /^https:\/\/calendar\.google\.com\/calendar\/embed\?/.test(GOOGLE_CALENDAR_EMBED_URL)) {
-  calendar.src = GOOGLE_CALENDAR_EMBED_URL;
-  calendar.hidden = false;
-  placeholder.hidden = true;
-}
 document.getElementById('year').textContent = new Date().getFullYear();
 const toggle = document.querySelector('.menu-toggle');
 const navigation = document.getElementById('navigation');
@@ -124,7 +115,7 @@ updatePrepProgress();
 // Remove the finished fullscreen intro from painting and hit testing entirely.
 const signatureIntro = document.querySelector('.signature-intro');
 signatureIntro?.addEventListener('animationend', event => {
-  if (event.target === signatureIntro && event.animationName === 'signature-exit') {
+  if (event.target === signatureIntro && ['signature-exit', 'logo-intro-finish'].includes(event.animationName)) {
     signatureIntro.remove();
   }
 });
@@ -184,3 +175,24 @@ signatureIntro?.addEventListener('animationend', event => {
   document.addEventListener('visibilitychange', sync);
   motion.addEventListener('change', sync);
 })();
+
+// Center the booking heading and calendar together when there is room.
+function centerBooking(includeHeading = true) {
+  const panel = document.querySelector('.calendar-frame');
+  const heading = document.querySelector('#appointments .center-heading');
+  const panelRect = panel.getBoundingClientRect();
+  const top = includeHeading ? heading.getBoundingClientRect().top : panelRect.top;
+  const height = panelRect.bottom - top;
+  const viewport = window.innerHeight;
+  const headerHeight = document.querySelector('.hero-nav').getBoundingClientRect().height;
+  const available = viewport - headerHeight;
+  const inset = height <= available - 32 ? headerHeight + (available - height) / 2 : headerHeight + 16;
+  window.scrollTo({top: Math.max(0, window.scrollY + top - inset), behavior: reducedMotion.matches ? 'instant' : 'smooth'});
+}
+document.querySelectorAll('a[href="#appointments"]').forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    history.replaceState(null, '', '#appointments');
+    centerBooking(true);
+  });
+});
