@@ -61,7 +61,7 @@ section[id]{scroll-margin-top:12px}
 @media(prefers-reduced-motion:reduce){.prep-grid.scroll-animated .prep-step{opacity:1;transform:none}}
 
 /* Original signature writes on, erases left to right, then the screen dissolves. */
-.signature-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at center,#350b12,#150406 75%);color:var(--gold2);pointer-events:none;animation:signature-exit 1.3s cubic-bezier(.4,0,.2,1) 3.7020s forwards}
+.signature-intro{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:radial-gradient(ellipse at center,#350b12,#150406 75%);color:var(--gold2);pointer-events:none;animation:signature-exit 1.3s cubic-bezier(.4,0,.2,1) 4.8770s forwards}
 .signature-lockup{width:min(84vw,600px);}
 .signature-mark{display:block;width:100%;height:auto;overflow:visible}
 .signature-stroke{opacity:0;stroke-dasharray:1;stroke-dashoffset:1;animation:signature-write var(--draw-time) linear var(--draw-delay) forwards}
@@ -79,7 +79,7 @@ section[id]{scroll-margin-top:12px}
 
 /* Small brand name beneath the handwritten Chaims signature. */
 .signature-lockup{text-align:center}
-.signature-caption{display:block;margin-top:8px;color:var(--gold2);font:400 clamp(19px,2.7vw,25px)/1.5 'Baskerville','Palatino Linotype','Book Antiqua',Georgia,serif;letter-spacing:.09em;opacity:0;animation:signature-caption-in .4s ease 1.95s forwards,signature-caption-out .3s ease 3.4020s forwards}
+.signature-caption{display:block;margin-top:8px;color:var(--gold2);font:400 clamp(19px,2.7vw,25px)/1.5 'Baskerville','Palatino Linotype','Book Antiqua',Georgia,serif;letter-spacing:.09em;opacity:0;animation:signature-caption-in .5s ease 1.7670s forwards,signature-caption-out .4s ease 3.5670s forwards}
 @keyframes signature-caption-in{to{opacity:1}}
 
 /* Selected concept 03: fine monoline signature and a spaced serif caption. */
@@ -92,7 +92,7 @@ section[id]{scroll-margin-top:12px}
 /* Quiet welcome with a softly appearing gold frame. */
 .signature-intro::before{content:"";position:absolute;inset:clamp(16px,3vw,38px);border:1px solid rgba(239,209,170,.7);opacity:0;pointer-events:none;animation:signature-frame-in 1.2s ease-out .15s forwards}
 .signature-lockup{position:relative;width:min(80vw,640px)}
-.signature-welcome{display:block;margin-bottom:clamp(30px,6vh,65px);font:400 clamp(20px,2.5vw,28px)/1.4 'Baskerville','Palatino Linotype',Georgia,serif;letter-spacing:.16em;color:#efd1aa;opacity:0;animation:signature-welcome-in .8s ease-out .3s forwards,signature-caption-out .3s ease 3.4020s forwards}
+.signature-welcome{display:block;margin-bottom:clamp(30px,6vh,65px);font:400 clamp(20px,2.5vw,28px)/1.4 'Baskerville','Palatino Linotype',Georgia,serif;letter-spacing:.16em;color:#efd1aa;opacity:0;animation:signature-caption-in .5s ease 1.7670s forwards,signature-caption-out .4s ease 3.5670s forwards}
 @keyframes signature-frame-in{from{opacity:0}to{opacity:1}}
 @keyframes signature-welcome-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-height:500px){.signature-lockup{width:min(65vw,400px)}.signature-welcome{margin-bottom:16px;font-size:18px}.signature-caption{margin-top:12px;font-size:13px}}
