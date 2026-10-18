@@ -390,3 +390,7 @@ footer .footer-credit{margin:12px 0 0;font:italic 15px/1.6 "Cormorant Garamond",
  body.at-footer .hero-nav .menu-toggle{opacity:0;visibility:hidden;pointer-events:none}
  body.at-footer .hero-nav nav{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(12px) scale(.96)}
 }
+
+/* Serif supporting copy harmonises with the hero title. */
+.beauty-hero .beauty-description{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(23px,2.2vw,30px);font-weight:400;line-height:1.45;letter-spacing:.015em;color:#f3d9bc;text-shadow:0 2px 12px rgba(15,0,3,.8);max-width:650px}
+@media(max-width:700px){.beauty-hero .beauty-description{font-size:23px;line-height:1.45;max-width:340px}}

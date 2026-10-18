@@ -253,22 +253,37 @@ if (experienceSection && 'IntersectionObserver' in window && !reducedMotion.matc
   experienceObserver.observe(experienceSection);
 }
 
-// Scroll position determines the car position, so scrolling up reverses it.
+// Smooth scroll-following car; interpolate transforms until the car settles.
 (() => {
   const tile = document.querySelector('.travel-note');
   const road = tile?.querySelector('.travel-road');
-  if (!road) return;
-  let frame = 0;
-  function renderCar() {
+  const car = road?.querySelector('.travel-car');
+  if (!car) return;
+  let frame = 0, last = 0, current = null, target = 0, dirty = true;
+  function renderCar(time) {
     frame = 0;
-    const rect = tile.getBoundingClientRect();
-    const viewport = window.innerHeight;
-    const progress = reducedMotion.matches ? 0 : Math.max(0, Math.min(1,
-      (viewport * .9 - rect.top) / (viewport * .65 + rect.height)));
-    const distance = Math.max(0, road.clientWidth - 56);
-    road.style.setProperty('--car-x', `${(distance * progress).toFixed(2)}px`);
+    if (dirty) {
+      const rect = tile.getBoundingClientRect();
+      const viewport = window.innerHeight;
+      const progress = Math.max(0, Math.min(1,
+        (viewport * .9 - rect.top) / (viewport * .65 + rect.height)));
+      target = reducedMotion.matches ? 0 : Math.max(0, road.clientWidth - 56) * progress;
+      dirty = false;
+    }
+    const dt = last ? Math.min(64, time - last) : 16.67;
+    last = time;
+    if (current === null || reducedMotion.matches) current = target;
+    else current += (target - current) * (1 - Math.exp(-dt / 105));
+    const moving = Math.abs(target - current) > .08;
+    if (!moving) current = target;
+    car.style.transform = `translate3d(${current.toFixed(3)}px,0,0)`;
+    if (moving) frame = requestAnimationFrame(renderCar);
+    else last = 0;
   }
-  function scheduleCar() { if (!frame) frame = requestAnimationFrame(renderCar); }
+  function scheduleCar() {
+    dirty = true;
+    if (!frame) frame = requestAnimationFrame(renderCar);
+  }
   window.addEventListener('scroll', scheduleCar, {passive:true});
   window.addEventListener('resize', scheduleCar);
   reducedMotion.addEventListener('change', scheduleCar);
