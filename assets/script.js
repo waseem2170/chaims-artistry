@@ -196,3 +196,16 @@ document.querySelectorAll('a[href="#appointments"]').forEach(link => {
     centerBooking(true);
   });
 });
+
+// Speed up the same animation timeline: no jump or alternate exit transition.
+document.querySelector('.intro-skip')?.addEventListener('click', event => {
+  event.currentTarget.disabled = true;
+  document.getAnimations().forEach(animation => {
+    const target = animation.effect?.target;
+    const timing = animation.effect?.getTiming();
+    if (timing?.iterations !== Infinity && target &&
+        (target.closest('.logo-intro') || target.matches('.fixed-brand, .hero-inner, .hero-nav'))) {
+      animation.updatePlaybackRate(2.5);
+    }
+  });
+});

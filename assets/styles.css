@@ -235,3 +235,27 @@ html{scroll-padding-top:135px}
 @media(max-width:700px){
  .calendar-frame #booking-calendar{height:max(1100px,145svh);min-height:1100px;max-height:none}
 }
+
+/* Editorial beauty hero, with the existing sticky navigation retained. */
+.hero.velvet-hero.beauty-hero{min-height:1050px;background:#250407 url('hero-beauty.jpg') center 65%/cover no-repeat}
+.beauty-hero::before{background:linear-gradient(180deg,rgba(25,0,3,.12),transparent 65%)}
+.beauty-hero .hero-inner{max-width:1000px;padding:170px 24px 230px}
+.hero.beauty-hero h1.beauty-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(78px,8.3vw,120px);font-weight:300;letter-spacing:-.045em;line-height:.91;color:#f3d9bc;margin:0;text-transform:none}
+.beauty-title span{display:block;background:linear-gradient(115deg,#b78461 3%,#fff1df 32%,#e4bea0 55%,#fff1df 75%,#bf8f70);background-clip:text;-webkit-background-clip:text;color:transparent;padding:0 .08em .08em}
+.beauty-divider{display:block;width:1px;height:56px;background:linear-gradient(transparent,#efd1aa,transparent);margin:24px auto;position:relative}
+.beauty-divider::after{content:'';position:absolute;left:-1px;top:48%;width:3px;height:5px;background:#fff5dd;box-shadow:0 0 8px 3px #e9a36c;border-radius:50%}
+.beauty-description{font:300 15px/1.8 'DM Sans',Arial,sans-serif;letter-spacing:.19em;color:#f7e4d4;margin:0 0 35px}
+.beauty-hero .beauty-book{justify-content:center;min-width:260px;padding:17px 36px;border:1.5px solid #dfb58e;font-size:13px;letter-spacing:.3em;background:rgba(68,9,15,.35)}
+.beauty-hero .beauty-book::before{content:'';position:absolute;top:-1px;left:35%;width:30%;height:1px;background:#fff1db;box-shadow:0 0 7px 2px rgba(255,192,138,.65)}
+@media(max-width:700px){
+ .hero.velvet-hero.beauty-hero{min-height:max(920px,100svh);background-position:center bottom}
+ .beauty-hero .hero-inner{padding:140px 18px 250px;width:100%}
+ .hero.beauty-hero h1.beauty-title{font-size:clamp(60px,13.8vw,96px);line-height:.98}
+ .beauty-description{font-size:12px;letter-spacing:.12em}
+ .beauty-divider{height:45px;margin:20px auto}
+ .beauty-hero .beauty-book{min-width:220px;font-size:12px;padding:15px 28px}
+}
+.calendar-frame #booking-calendar{height:1250px;min-height:1250px;max-height:none}
+@media(max-width:700px){.calendar-frame #booking-calendar{height:1450px;min-height:1450px}}
+.logo-intro .intro-skip{font-size:10px;padding:7px 14px;opacity:.75}
+.logo-intro .intro-skip:disabled{opacity:0;transition:opacity .2s;pointer-events:none}
