@@ -209,3 +209,24 @@ document.querySelector('.intro-skip')?.addEventListener('click', event => {
     }
   });
 });
+
+// Use the measured header height so the opening panel meets its exact edge.
+const introHeader = document.querySelector('.hero-nav');
+function measureIntroHeader() {
+  document.documentElement.style.setProperty('--intro-header-height', `${introHeader.offsetHeight}px`);
+}
+measureIntroHeader();
+if ('ResizeObserver' in window) new ResizeObserver(measureIntroHeader).observe(introHeader);
+// Skip is only offered before the homepage begins opening. The final logo
+// movement then runs at its original smooth speed, even after an early Skip.
+document.querySelector('.intro-shutter-top')?.addEventListener('animationstart', event => {
+  if (event.animationName !== 'logo-open-top') return;
+  const skip = document.querySelector('.intro-skip');
+  if (skip) { skip.hidden = true; skip.disabled = true; }
+  document.getAnimations().forEach(animation => {
+    const target = animation.effect?.target;
+    if (target && (target.closest('.logo-intro') || target.matches('.fixed-brand, .hero-inner, .hero-nav'))) {
+      animation.updatePlaybackRate(1);
+    }
+  });
+});

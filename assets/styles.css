@@ -259,3 +259,27 @@ html{scroll-padding-top:135px}
 @media(max-width:700px){.calendar-frame #booking-calendar{height:1450px;min-height:1450px}}
 .logo-intro .intro-skip{font-size:10px;padding:7px 14px;opacity:.75}
 .logo-intro .intro-skip:disabled{opacity:0;transition:opacity .2s;pointer-events:none}
+
+/* The opening upper panel becomes the header backdrop. */
+:root{--intro-header-height:126px}
+@media(max-width:700px){:root{--intro-header-height:76px}}
+@keyframes logo-open-top{to{transform:translateY(calc(-100% + var(--intro-header-height)))}}
+.hero-nav{background:#150406}
+.intro-skip[hidden]{display:none!important}
+@media(min-width:701px){.calendar-frame #booking-calendar{height:820px;min-height:820px;max-height:none}}
+
+/* Match the Instagram feed surround without altering makeup photo colours. */
+.instagram-section{background:radial-gradient(ellipse at 50% 0%,#3b0b12,#190407 75%)}
+.instagram-section .center-heading{margin-bottom:34px}
+.instagram-handle{color:var(--gold2);font-size:12px;letter-spacing:.15em;border-bottom:1px solid var(--line);padding-bottom:7px}
+.instagram-feed-frame{padding:20px;border:1px solid var(--line);border-radius:22px;background:#24070c;box-shadow:0 18px 55px rgba(12,0,3,.2);overflow:hidden}
+.instagram-feed-frame>div{width:100%;min-height:160px}
+.instagram-feed-frame iframe{max-width:100%;border:0}
+.instagram-fallback{text-align:center;margin:25px 0 0;font-size:11px;letter-spacing:.14em;color:var(--gold)}
+@media(max-width:700px){.instagram-feed-frame{padding:10px;border-radius:16px}}
+
+/* Three social and contact cards on desktop. */
+@media(min-width:701px){.contact-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.contact-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;color:#efd1aa}
+.contact-icon svg{display:block;width:32px;height:32px;flex-shrink:0}
