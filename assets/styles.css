@@ -319,3 +319,22 @@ html{scroll-padding-top:135px}
  .contact-card{padding:16px 20px;min-height:0;border-radius:15px}
  .contact-icon svg{width:27px;height:27px}
 }
+
+/* Bring the hero copy closer to the header; reserve the lower area for imagery. */
+.hero.velvet-hero.beauty-hero{align-items:start}
+.beauty-hero .hero-inner{padding-top:165px}
+.hero-specialties{max-width:100%;line-height:1.8}
+.travel-icon{display:flex;align-items:center;flex-shrink:0}
+.mobile-book-link{display:none}
+@media(max-width:700px){
+ .hero.velvet-hero.beauty-hero{min-height:max(800px,100svh)}
+ .beauty-hero .hero-inner{padding-top:112px;padding-bottom:210px}
+ .hero-specialties{font-size:9px;letter-spacing:.09em;margin-bottom:18px}
+ .hero-nav .menu-toggle{position:fixed;top:auto;left:auto;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:54px;height:54px;border-radius:50%;background:#350b12;border:1px solid rgba(239,209,170,.65);color:#efd1aa;display:grid;place-items:center;text-align:center;padding:0;font-size:25px;box-shadow:0 5px 22px rgba(0,0,0,.35);z-index:60;touch-action:manipulation}
+ .hero-nav nav,.hero-nav nav.open{display:flex;position:fixed;top:auto;left:auto;right:20px;bottom:calc(88px + env(safe-area-inset-bottom,0px));width:min(260px,calc(100vw - 40px));max-height:calc(100svh - 180px);overflow-y:auto;border-radius:20px;padding:16px 20px;background:#24070c;box-shadow:0 12px 40px rgba(0,0,0,.4);opacity:0;visibility:hidden;transform:translateY(12px) scale(.96);transform-origin:bottom right;pointer-events:none;transition:opacity .22s ease,transform .28s ease,visibility .28s;z-index:59}
+ .hero-nav nav.open{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+ .hero-nav nav a{padding:10px 4px;font-size:12px}
+ .hero-nav .mobile-book-link{display:block;border-top:1px solid var(--line);margin-top:5px;color:#efd1aa}
+ body:has(.logo-intro) .hero-nav{animation-name:mobile-nav-reveal}
+ @keyframes mobile-nav-reveal{from{opacity:0}to{opacity:1}}
+}

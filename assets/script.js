@@ -2,16 +2,20 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 const toggle = document.querySelector('.menu-toggle');
 const navigation = document.getElementById('navigation');
-toggle.addEventListener('click', () => {
-  const open = navigation.classList.toggle('open');
+function setMenuOpen(open) {
+  navigation.classList.toggle('open', open);
   toggle.setAttribute('aria-expanded', String(open));
+  toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
   toggle.textContent = open ? '×' : '☰';
+}
+toggle.addEventListener('click', () => setMenuOpen(!navigation.classList.contains('open')));
+navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
+document.addEventListener('click', event => {
+  if (!navigation.contains(event.target) && !toggle.contains(event.target)) setMenuOpen(false);
 });
-navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-  navigation.classList.remove('open');
-  toggle.setAttribute('aria-expanded', 'false');
-  toggle.textContent = '☰';
-}));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && navigation.classList.contains('open')) { setMenuOpen(false); toggle.focus(); }
+});
 
 // Accessible accordion and scroll-driven preparation timeline.
 const prepTimeline = document.querySelector('.prep-grid');
