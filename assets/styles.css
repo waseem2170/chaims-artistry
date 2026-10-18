@@ -206,7 +206,10 @@ section[id]{scroll-margin-top:12px}
 .intro-logo-image{display:block;width:100%;height:auto;animation:logo-reveal 1.1s cubic-bezier(.25,.6,.3,1) .15s both}
 @keyframes logo-reveal{from{clip-path:inset(0 100% 0 0);opacity:0;transform:translateY(8px)}to{clip-path:inset(0);opacity:1;transform:translateY(0)}}
 @keyframes logo-open-top{to{transform:translateY(-101%)}}
-@keyframes logo-open-bottom{to{transform:translateY(101%)}}
+@keyframes logo-open-bottom{
+ from{transform:translate3d(0,0,0);visibility:visible}
+ to{transform:translate3d(0,calc(100% + 160px + env(safe-area-inset-bottom, 0px)),0);visibility:hidden}
+}
 @keyframes logo-rise{0%{top:50%;transform:translate(-50%,-50%) scale(1);opacity:1}75%{opacity:1}100%{top:38px;width:140px;transform:translate(-50%,-50%) scale(1);opacity:1}}
 @keyframes logo-intro-finish{to{opacity:0;visibility:hidden}}
 body:has(.logo-intro) .hero-inner{animation:logo-home-content 1.2s ease 3.55s both}
@@ -283,3 +286,6 @@ html{scroll-padding-top:135px}
 
 .contact-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;color:#efd1aa}
 .contact-icon svg{display:block;width:32px;height:32px;flex-shrink:0}
+
+/* Overshoot Safari’s changing bottom viewport and release the finished layer. */
+.intro-shutter-bottom{backface-visibility:hidden;-webkit-backface-visibility:hidden}

@@ -230,3 +230,8 @@ document.querySelector('.intro-shutter-top')?.addEventListener('animationstart',
     }
   });
 });
+
+const lowerIntroPanel = document.querySelector('.intro-shutter-bottom');
+lowerIntroPanel?.addEventListener('animationend', event => {
+  if (event.animationName === 'logo-open-bottom') lowerIntroPanel.remove();
+});
