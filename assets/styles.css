@@ -338,3 +338,55 @@ html{scroll-padding-top:135px}
  body:has(.logo-intro) .hero-nav{animation-name:mobile-nav-reveal}
  @keyframes mobile-nav-reveal{from{opacity:0}to{opacity:1}}
 }
+
+/* Centre the headline in the viewport. */
+.beauty-hero .hero-inner{padding-top:max(165px,calc(50svh - 145px))}
+@media(max-width:700px){.beauty-hero .hero-inner{padding-top:max(112px,calc(50svh - 90px))}}
+
+/* Delicate corner accents draw once when the experience section enters view. */
+.experience-heading{position:relative;padding:30px 28px 36px;align-self:start}
+.experience-corner{position:absolute;width:42%;height:68px;pointer-events:none;color:rgba(223,181,142,.75)}
+.corner-top{top:0;left:0}
+.corner-bottom{bottom:0;right:0}
+.experience-corner::before,.experience-corner::after{content:'';position:absolute;background:currentColor;transition:transform .8s cubic-bezier(.22,.61,.36,1)}
+.experience-corner::before{width:100%;height:1px}
+.experience-corner::after{height:100%;width:1px}
+.corner-top::before,.corner-top::after{top:0;left:0;transform-origin:top left}
+.corner-bottom::before,.corner-bottom::after{bottom:0;right:0;transform-origin:bottom right;transition-delay:.18s}
+.welcome.experience-ready:not(.experience-visible) .experience-corner::before{transform:scaleX(0)}
+.welcome.experience-ready:not(.experience-visible) .experience-corner::after{transform:scaleY(0)}
+.welcome.experience-ready .welcome-copy{transition:opacity .8s ease .18s,transform .8s ease .18s}
+.welcome.experience-ready:not(.experience-visible) .welcome-copy{opacity:0;transform:translateY(12px)}
+@media(max-width:700px){
+ .experience-heading{padding:24px 20px 28px}
+ .experience-corner{width:30%;height:45px}
+}
+@media(prefers-reduced-motion:reduce){
+ .welcome.experience-ready:not(.experience-visible) .experience-corner::before,.welcome.experience-ready:not(.experience-visible) .experience-corner::after{transform:none}
+ .welcome.experience-ready:not(.experience-visible) .welcome-copy{opacity:1;transform:none}
+}
+
+/* A small decorative car follows scroll progress below the travel copy. */
+.travel-note{position:relative;padding-bottom:79px}
+.travel-road{position:absolute;left:30px;right:30px;bottom:16px;height:36px;border-bottom:1px solid rgba(223,181,142,.22);pointer-events:none}
+.travel-car{position:absolute;left:0;bottom:0;width:56px;height:32px;display:block;color:#efd1aa;transform:translate3d(var(--car-x,0px),0,0);will-change:transform}
+.travel-car svg{display:block;width:56px;height:32px}
+@media(max-width:700px){.travel-note{padding-bottom:73px}.travel-road{left:22px;right:22px;bottom:14px}}
+@media(prefers-reduced-motion:reduce){.travel-car{transform:none;will-change:auto}}
+
+/* Improve the hero supporting text contrast and readability. */
+.beauty-hero .beauty-description{color:#fff0df;font-size:18px;font-weight:500;line-height:1.75;letter-spacing:.055em;text-shadow:0 2px 12px rgba(15,0,3,.9)}
+@media(max-width:700px){.beauty-hero .beauty-description{font-size:15px;line-height:1.8;letter-spacing:.035em}}
+/* A more leisurely corner reveal and accompanying text fade. */
+.experience-corner::before,.experience-corner::after{transition-duration:1.6s}
+.corner-bottom::before,.corner-bottom::after{transition-delay:.35s}
+.welcome.experience-ready .welcome-copy{transition:opacity 1.3s ease .3s,transform 1.3s ease .3s}
+
+footer .footer-credit{margin:12px 0 0;font:italic 15px/1.6 "Cormorant Garamond",Georgia,serif;letter-spacing:.025em;color:#dfb58e}
+
+/* Keep the footer clear of the floating mobile menu. */
+@media(max-width:700px){
+ .hero-nav .menu-toggle{transition:opacity .35s ease,visibility .35s ease}
+ body.at-footer .hero-nav .menu-toggle{opacity:0;visibility:hidden;pointer-events:none}
+ body.at-footer .hero-nav nav{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(12px) scale(.96)}
+}

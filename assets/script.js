@@ -239,3 +239,61 @@ const lowerIntroPanel = document.querySelector('.intro-shutter-bottom');
 lowerIntroPanel?.addEventListener('animationend', event => {
   if (event.animationName === 'logo-open-bottom') lowerIntroPanel.remove();
 });
+
+// Reveal the experience accents once; keep content visible without observer support.
+const experienceSection = document.querySelector('#welcome');
+if (experienceSection && 'IntersectionObserver' in window && !reducedMotion.matches) {
+  experienceSection.classList.add('experience-ready');
+  const experienceObserver = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      experienceSection.classList.add('experience-visible');
+      experienceObserver.disconnect();
+    }
+  }, {threshold: 0, rootMargin: '0px 0px -12% 0px'});
+  experienceObserver.observe(experienceSection);
+}
+
+// Scroll position determines the car position, so scrolling up reverses it.
+(() => {
+  const tile = document.querySelector('.travel-note');
+  const road = tile?.querySelector('.travel-road');
+  if (!road) return;
+  let frame = 0;
+  function renderCar() {
+    frame = 0;
+    const rect = tile.getBoundingClientRect();
+    const viewport = window.innerHeight;
+    const progress = reducedMotion.matches ? 0 : Math.max(0, Math.min(1,
+      (viewport * .9 - rect.top) / (viewport * .65 + rect.height)));
+    const distance = Math.max(0, road.clientWidth - 56);
+    road.style.setProperty('--car-x', `${(distance * progress).toFixed(2)}px`);
+  }
+  function scheduleCar() { if (!frame) frame = requestAnimationFrame(renderCar); }
+  window.addEventListener('scroll', scheduleCar, {passive:true});
+  window.addEventListener('resize', scheduleCar);
+  reducedMotion.addEventListener('change', scheduleCar);
+  if ('ResizeObserver' in window) new ResizeObserver(scheduleCar).observe(tile);
+  scheduleCar();
+})();
+
+// Hide the floating menu only when the footer occupies the lower viewport.
+(() => {
+  const footer = document.querySelector('footer');
+  if (!footer) return;
+  let frame = 0;
+  function updateFooterMenu() {
+    frame = 0;
+    const mobile = window.matchMedia('(max-width:700px)').matches;
+    const rect = footer.getBoundingClientRect();
+    const hide = mobile && rect.top < window.innerHeight - 100 && rect.bottom > 0;
+    document.body.classList.toggle('at-footer', hide);
+    if (hide && navigation.classList.contains('open')) setMenuOpen(false);
+  }
+  function scheduleFooterMenu() {
+    if (!frame) frame = requestAnimationFrame(updateFooterMenu);
+  }
+  window.addEventListener('scroll', scheduleFooterMenu, {passive:true});
+  window.addEventListener('resize', scheduleFooterMenu);
+  window.addEventListener('pageshow', scheduleFooterMenu);
+  scheduleFooterMenu();
+})();
