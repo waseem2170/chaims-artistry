@@ -289,3 +289,33 @@ html{scroll-padding-top:135px}
 
 /* Overshoot Safari’s changing bottom viewport and release the finished layer. */
 .intro-shutter-bottom{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+
+/* Refined copy and compact cards. */
+.hero-specialties{font-size:12px;letter-spacing:.22em;color:#dfb58e;margin:0 0 30px}
+.hero.beauty-hero h1.beauty-title{font-size:clamp(70px,7.4vw,108px);line-height:1.04}
+.beauty-description{max-width:660px}
+.contact-grid{gap:12px}
+.contact-card{min-height:0;padding:20px 24px;display:grid;grid-template-columns:38px 1fr;column-gap:16px;row-gap:3px;align-content:center}
+.contact-card .contact-icon{grid-column:1;grid-row:1 / 3;align-self:center;width:32px;height:32px}
+.contact-card .contact-type{grid-column:2;margin:0;font-size:9px;letter-spacing:.17em}
+.contact-card strong{grid-column:2;font-size:13px}
+.service-card{min-height:0;padding:30px}
+.service-symbol{font-size:38px;margin:14px 0 4px}
+.service-card h3{font-size:32px}
+.service-card>p{max-width:none;margin-bottom:20px}
+.service-meta{padding-top:14px}
+.service-meta strong{font-size:36px}
+@media(max-width:700px){
+ .hero.beauty-hero h1.beauty-title{font-size:clamp(48px,12vw,82px)}
+ .hero-specialties{font-size:10px;letter-spacing:.14em;margin-bottom:24px}
+ .beauty-description br{display:none}
+ .beauty-description{max-width:340px;font-size:13px;letter-spacing:.06em}
+ .service-grid{gap:14px}
+ .service-card{padding:23px;min-height:0}
+ .service-symbol{font-size:30px;margin:9px 0 3px}
+ .service-card h3{font-size:29px;margin-bottom:9px}
+ .service-card>p{font-size:13px;line-height:1.65;margin-bottom:16px}
+ .service-meta strong{font-size:30px}
+ .contact-card{padding:16px 20px;min-height:0;border-radius:15px}
+ .contact-icon svg{width:27px;height:27px}
+}
