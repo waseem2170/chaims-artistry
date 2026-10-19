@@ -608,3 +608,12 @@ html,body{background-color:#270407}
  background:linear-gradient(to bottom,#270407 0%,rgba(39,4,7,0) 38%),radial-gradient(ellipse at 60% 45%,#420b10 0%,#270407 52%,#170204 100%);
 }
 body.header-scrolled .hero-nav{background:#270407;border-bottom-color:transparent}
+
+/* Compact skyline landmarks at both ends of the travel route. */
+.travel-house{width:40px}
+
+/* Let the scrolling makeup cross the hero boundary without covering copy. */
+#main{overflow-x:clip}
+.hero.velvet-hero.beauty-hero.editorial-hero{overflow:visible;z-index:1}
+.editorial-hero .hero-makeup-wrap{overflow:visible}
+.welcome .section-wrap{position:relative;z-index:2}
