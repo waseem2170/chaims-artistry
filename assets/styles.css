@@ -491,3 +491,70 @@ body.intro-complete .beauty-book::after{animation:booking-sheen-repeat 2s ease i
 /* Contact tiles stay still after their single sequential greeting. */
 .contact-card:hover{transform:none}
 .contact-card.contact-zoom{animation-iteration-count:1}
+
+/* Copper editorial hero: quiet motion at the edge, legible live typography. */
+.hero.velvet-hero.beauty-hero.editorial-hero{background:radial-gradient(ellipse at 60% 45%,#420b10 0%,#270407 52%,#170204 100%);min-height:max(850px,100svh);align-items:center}
+.editorial-hero::before{background:linear-gradient(90deg,transparent,rgba(23,2,4,.1) 28%,transparent 70%)}
+.hero-makeup-wrap{position:absolute;left:0;top:0;width:38%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.hero-makeup-texture{display:block;width:100%;height:100%;object-fit:cover;object-position:left center;transform-origin:left center;animation:copper-drift 14s ease-in-out infinite alternate;will-change:transform}
+@keyframes copper-drift{from{transform:translate3d(-5px,-6px,0) scale(1.02)}to{transform:translate3d(5px,9px,0) scale(1.055)}}
+body:has(.logo-intro) .hero-makeup-wrap{animation:copper-enter 1.8s cubic-bezier(.22,.61,.36,1) 2.3s both}
+@keyframes copper-enter{from{opacity:0;transform:translateX(-45px)}to{opacity:1;transform:translateX(0)}}
+.editorial-hero .hero-inner{margin-left:18%;width:76%;max-width:1050px;padding:180px 28px 110px}
+.hero.editorial-hero h1.beauty-title{font-size:clamp(72px,7.8vw,120px);line-height:1.05;font-weight:400;letter-spacing:-.025em}
+.editorial-hero .beauty-title span{background:none;color:#f7e7d1;padding:0 0 .05em}
+.editorial-hero .beauty-title em{font-weight:300;color:#dfb58e}
+.editorial-hero .beauty-description{max-width:590px;font-size:clamp(23px,2.4vw,30px);color:#f5e3ce}
+.editorial-hero .hero-specialties{font-size:11px;letter-spacing:.2em;margin-bottom:38px}
+.editorial-hero .beauty-divider{height:65px;margin:26px auto}
+.editorial-hero .beauty-divider::after{width:10px;height:16px;left:-4.5px;top:40%;border-radius:0;clip-path:polygon(50% 0,65% 37%,100% 50%,65% 63%,50% 100%,35% 63%,0 50%,35% 37%);box-shadow:none;background:#efd1aa}
+@media(max-width:700px){
+ .hero.velvet-hero.beauty-hero.editorial-hero{min-height:max(810px,100svh)}
+ .hero-makeup-wrap{width:32%;left:-4%}
+ .editorial-hero .hero-inner{width:79%;margin-left:20%;padding:150px 16px 100px}
+ .hero.editorial-hero h1.beauty-title{font-size:clamp(43px,10.5vw,72px);line-height:1.1}
+ .editorial-hero .hero-specialties{font-size:8px;letter-spacing:.12em;line-height:1.9;margin-bottom:30px}
+ .editorial-hero .beauty-description{font-size:21px;line-height:1.5;max-width:330px}
+ .editorial-hero .beauty-book{min-width:0;width:min(100%,270px);padding:15px 22px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.hero-makeup-texture{will-change:auto}}
+
+/* Reference treatment: narrow copper edge, no continuous decorative movement. */
+.editorial-hero .hero-glitter{display:none}
+.editorial-hero .hero-makeup-wrap{width:27%;left:-3%;overflow:hidden;mask-image:linear-gradient(to right,#000 65%,transparent);-webkit-mask-image:linear-gradient(to right,#000 65%,transparent)}
+.editorial-hero .hero-makeup-texture{animation:none;transform:none;will-change:auto;object-fit:cover;object-position:left center}
+.editorial-hero .hero-cta.beauty-book{background:transparent;color:#efd1aa;border:1px solid #dfb58e;box-shadow:none;font-weight:400;animation:none;letter-spacing:.24em}
+.editorial-hero .hero-cta.beauty-book::before,.editorial-hero .hero-cta.beauty-book::after{display:none;animation:none}
+.editorial-hero .hero-cta.beauty-book:hover{background:rgba(239,209,170,.08);color:#efd1aa;transform:none}
+@media(max-width:700px){.editorial-hero .hero-makeup-wrap{width:25%;left:-3%}}
+
+/* Use the supplied slender makeup strip without enlarging or cropping it. */
+.editorial-hero .hero-makeup-wrap{left:0;width:auto;aspect-ratio:314 / 2030;height:100%;max-width:27%;mask-image:linear-gradient(to right,#000 88%,transparent);-webkit-mask-image:linear-gradient(to right,#000 88%,transparent)}
+.editorial-hero .hero-makeup-texture{width:100%;height:100%;object-fit:fill;object-position:left center}
+@media(max-width:700px){.editorial-hero .hero-makeup-wrap{left:0;width:auto;max-width:25%}}
+
+/* Give the reference makeup image a fuller presence on wide screens. */
+@media(min-width:701px){
+ .editorial-hero .hero-makeup-wrap{width:24%;max-width:440px;aspect-ratio:auto}
+ .editorial-hero .hero-makeup-texture{object-fit:cover;object-position:left center}
+ .editorial-hero .hero-inner{margin-left:25%;width:70%;max-width:1200px}
+ .hero.editorial-hero h1.beauty-title{font-size:clamp(76px,8.5vw,144px)}
+}
+
+/* Gold booking invitation and restrained desktop makeup hover. */
+.editorial-hero .hero-cta.beauty-book{background:#efd1aa;color:#30080e;border-color:#efd1aa;font-weight:500}
+.editorial-hero .hero-cta.beauty-book:hover{background:#f6dfc1;color:#30080e}
+body.intro-complete .editorial-hero .hero-cta.beauty-book{animation:hero-book-glow 2s ease-in-out infinite}
+body.intro-complete .editorial-hero .hero-cta.beauty-book::after{display:block;animation:booking-sheen-repeat 2s ease-in-out infinite}
+@keyframes hero-book-glow{0%,75%,100%{box-shadow:0 4px 18px rgba(0,0,0,.18)}35%{box-shadow:0 0 24px rgba(239,209,170,.5),0 0 48px rgba(223,181,142,.18)}}
+/* The makeup follows scrolling on touch screens and desktop. */
+.editorial-hero .hero-makeup-wrap{pointer-events:none}
+.editorial-hero .hero-makeup-texture{transform-origin:left center;transform:translate3d(0,var(--makeup-scroll-y,0px),0) scale(1.08);transition:none}
+@media(prefers-reduced-motion:reduce){
+ body.intro-complete .editorial-hero .hero-cta.beauty-book,
+ body.intro-complete .editorial-hero .hero-cta.beauty-book::after{animation:none}
+ .editorial-hero .hero-makeup-texture{transition:none}
+ .editorial-hero .hero-makeup-wrap:hover .hero-makeup-texture{transform:none}
+}
+
+@media(prefers-reduced-motion:reduce){.editorial-hero .hero-makeup-texture{transform:none}}

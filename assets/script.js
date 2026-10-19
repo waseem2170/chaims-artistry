@@ -457,3 +457,30 @@ revealBookingCue();
    });
  },{threshold:.5});cards.forEach(card=>observer.observe(card));
 })();
+
+// Subtle reversible makeup parallax, with no continuous idle animation.
+(() => {
+ const hero=document.querySelector('.editorial-hero');
+ const texture=hero?.querySelector('.hero-makeup-texture');
+ if(!texture)return;
+ let frame=0,last=0,current=0,target=0,dirty=true;
+ function render(now){
+  frame=0;
+  if(dirty){
+   const rect=hero.getBoundingClientRect();
+   const progress=Math.max(0,Math.min(1,-rect.top/Math.max(1,rect.height)));
+   target=reducedMotion.matches?0:progress*rect.height*.035;
+   dirty=false;
+  }
+  const dt=last?Math.min(64,now-last):16;last=now;
+  current=reducedMotion.matches?target:current+(target-current)*(1-Math.exp(-dt/110));
+  const moving=Math.abs(target-current)>.05;
+  if(!moving)current=target;
+  texture.style.setProperty('--makeup-scroll-y',`${current.toFixed(2)}px`);
+  if(moving)frame=requestAnimationFrame(render);else last=0;
+ }
+ function schedule(){dirty=true;if(!frame)frame=requestAnimationFrame(render);}
+ window.addEventListener('scroll',schedule,{passive:true});
+ window.addEventListener('resize',schedule);
+ reducedMotion.addEventListener('change',schedule);schedule();
+})();
