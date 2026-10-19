@@ -601,3 +601,10 @@ body.header-scrolled .hero-nav{background:#150406;border-bottom-color:rgba(239,2
  .editorial-hero .beauty-description{margin-top:28px;margin-bottom:28px}
  .editorial-hero .hero-cta.beauty-book{width:190px;max-width:82%}
 }
+
+/* A shared burgundy at the hero's top, header and browser safe area. */
+html,body{background-color:#270407}
+.hero.velvet-hero.beauty-hero.editorial-hero{
+ background:linear-gradient(to bottom,#270407 0%,rgba(39,4,7,0) 38%),radial-gradient(ellipse at 60% 45%,#420b10 0%,#270407 52%,#170204 100%);
+}
+body.header-scrolled .hero-nav{background:#270407;border-bottom-color:transparent}
