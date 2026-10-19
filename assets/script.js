@@ -492,7 +492,7 @@ revealBookingCue();
  let pending=false;
  function update(){
   pending=false;
-  document.body.classList.toggle('hero-header-clear',window.matchMedia('(max-width:700px)').matches && window.scrollY<40);
+  document.body.classList.toggle('header-scrolled',window.scrollY>=40);
  }
  function schedule(){if(!pending){pending=true;requestAnimationFrame(update);}}
  window.addEventListener('scroll',schedule,{passive:true});

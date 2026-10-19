@@ -263,10 +263,10 @@ html{scroll-padding-top:135px}
 .logo-intro .intro-skip{font-size:10px;padding:7px 14px;opacity:.75}
 .logo-intro .intro-skip:disabled{opacity:0;transition:opacity .2s;pointer-events:none}
 
-/* The opening upper panel becomes the header backdrop. */
+/* Both opening panels clear the viewport completely. */
 :root{--intro-header-height:126px}
 @media(max-width:700px){:root{--intro-header-height:76px}}
-@keyframes logo-open-top{to{transform:translateY(calc(-100% + var(--intro-header-height)))}}
+@keyframes logo-open-top{to{transform:translateY(calc(-100% - 160px))}}
 .hero-nav{background:#150406}
 .intro-skip[hidden]{display:none!important}
 @media(min-width:701px){.calendar-frame #booking-calendar{height:820px;min-height:820px;max-height:none}}
@@ -587,4 +587,17 @@ body.intro-complete .editorial-hero .hero-cta.beauty-book::after{display:block;a
  .editorial-hero .hero-makeup-texture{position:absolute;top:0;left:-22vw;width:90vw;max-width:none;height:auto;object-fit:contain;object-position:left top}
  body.hero-header-clear .hero-nav{background:transparent;border-bottom-color:transparent}
  .hero-nav{transition:background .3s ease,border-color .3s ease}
+}
+
+/* Transparent initial header avoids a backdrop flash after the shutters open. */
+.hero-nav{background:transparent;border-bottom-color:transparent;transition:background .35s ease,border-color .35s ease}
+body.header-scrolled .hero-nav{background:#150406;border-bottom-color:rgba(239,209,170,.16)}
+.editorial-hero .beauty-description{margin:32px auto 30px}
+.editorial-hero .hero-cta.beauty-book{width:220px;max-width:85%;min-width:0;justify-content:center}
+@media(min-width:701px){
+ .editorial-hero .hero-inner{margin-left:24%;margin-right:0;width:76%;max-width:none;padding-left:clamp(24px,4vw,70px);padding-right:clamp(24px,4vw,70px)}
+}
+@media(max-width:700px){
+ .editorial-hero .beauty-description{margin-top:28px;margin-bottom:28px}
+ .editorial-hero .hero-cta.beauty-book{width:190px;max-width:82%}
 }
