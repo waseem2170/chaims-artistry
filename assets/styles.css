@@ -438,3 +438,56 @@ body.intro-complete .beauty-book::after{animation:booking-sheen-repeat 2s ease i
  body.menu-idle .mobile-menu-root .menu-toggle{opacity:0;visibility:hidden;pointer-events:none}
  body.menu-idle .mobile-menu-root nav{opacity:0;visibility:hidden;pointer-events:none}
 }
+
+/* Powder is decorative and stays behind the service copy. */
+.services{position:relative;isolation:isolate;overflow:hidden}
+.services>.section-wrap{position:relative;z-index:1}
+.makeup-powder{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+@media(prefers-reduced-motion:reduce){.makeup-powder{display:none}}
+
+/* Photographic powder enters from the edge and remains behind opaque cards. */
+.services-powder-image{position:absolute;right:-2%;top:0;width:min(48%,650px);height:100%;object-fit:contain;object-position:top right;pointer-events:none;z-index:0;opacity:.95;transform:translateX(0);transition:transform 1.7s cubic-bezier(.22,.61,.36,1),opacity 1.3s ease}
+.services.powder-image-ready:not(.powder-image-visible) .services-powder-image{transform:translateX(105%);opacity:0}
+.services .service-card{position:relative;background:linear-gradient(145deg,#3b1016,#200609)}
+.services .service-card.featured{background:linear-gradient(145deg,#46131d,#26080d)}
+@media(max-width:700px){.services-powder-image{width:65%;height:100%;right:-8%;object-fit:contain;object-position:top right}}
+@media(prefers-reduced-motion:reduce){.services.powder-image-ready:not(.powder-image-visible) .services-powder-image{transform:none;opacity:.95}}
+
+/* Small powder detail behind the booking section. */
+.appointments{position:relative;isolation:isolate;overflow:hidden}
+.appointments>.section-wrap{position:relative;z-index:1}
+.calendar-powder-image{position:absolute;right:-2%;top:20px;width:clamp(110px,19vw,285px);height:auto;pointer-events:none;z-index:0;opacity:.85;transition:transform 1.7s cubic-bezier(.22,.61,.36,1),opacity 1.3s ease}
+.appointments.powder-image-ready:not(.powder-image-visible) .calendar-powder-image{transform:translateX(110%);opacity:0}
+/* A centered reservation card with a scroll-driven padlock. */
+.reservation.secure-date{display:flex;flex-direction:column;text-align:center;gap:0;max-width:800px;margin:30px auto 0;padding:38px 45px;background:#28070d;border-radius:28px}
+.secure-date .eyebrow{margin:0 0 16px}
+.reservation.secure-date h3{font-size:clamp(32px,4vw,46px);color:#efd1aa;margin:0 0 24px}
+.secure-date .reservation-message{max-width:590px;font-size:17px;line-height:1.7;color:#dfc4ba;margin:0}
+.secure-calendar{width:230px;max-width:75%;height:auto;color:#dfb58e;margin:24px auto 14px;overflow:visible}
+.reservation.secure-date .secure-subtitle{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#efd1aa;margin:0 0 22px;transition:opacity 1s ease,transform 1s ease}
+.secure-rule{height:1px;background:rgba(239,209,170,.35);width:100%}
+.reservation.secure-date .payment-instructions{margin:18px 0 0;font-size:12px;color:#c7a9a0}
+.secure-date.reveal-ready .secure-calendar{opacity:0;transition:opacity 1s ease}
+.secure-date.reveal-ready .secure-subtitle{opacity:0;transform:translateY(-15px)}
+.secure-date.reveal-visible .secure-calendar,.secure-date.reveal-visible .secure-subtitle{opacity:1;transform:none}
+@media(max-width:700px){.reservation.secure-date{padding:28px 22px}.secure-date .reservation-message{font-size:15px}.secure-calendar{width:205px}.calendar-powder-image{width:135px;right:-22px}}
+@media(prefers-reduced-motion:reduce){.appointments.powder-image-ready:not(.powder-image-visible) .calendar-powder-image{transform:none;opacity:.85}.secure-date.reveal-ready .secure-calendar,.secure-date.reveal-ready .secure-subtitle{opacity:1;transform:none}}
+
+/* Opposite powder accents, always behind the calendar and reservation card. */
+.calendar-powder-image.powder-right{width:clamp(180px,27vw,430px);top:-35px;right:-3%}
+.calendar-powder-image.powder-left{width:clamp(140px,20vw,310px);left:-3%;right:auto;top:510px;transform:scaleX(-1);opacity:.72}
+.appointments.powder-image-ready:not(.powder-image-visible) .powder-left{transform:translateX(-110%) scaleX(-1);opacity:0}
+@media(max-width:700px){
+ .calendar-powder-image.powder-right{width:190px;right:-45px;top:-10px}
+ .calendar-powder-image.powder-left{width:150px;left:-40px;top:600px}
+ .services .service-card{transition:border-color .3s ease,box-shadow .3s ease;transform:none}
+ .services .service-card.service-current{border-color:#efd1aa;box-shadow:0 0 0 1px rgba(239,209,170,.22),0 8px 30px rgba(223,181,142,.13)}
+}
+/* One restrained zoom per contact tile, in reading order. */
+.contact-card.contact-zoom{animation:contact-greeting .8s ease both}
+@keyframes contact-greeting{0%,100%{transform:scale(1)}45%{transform:scale(1.035)}}
+@media(prefers-reduced-motion:reduce){.appointments.powder-image-ready:not(.powder-image-visible) .powder-left{transform:scaleX(-1);opacity:.72}}
+
+/* Contact tiles stay still after their single sequential greeting. */
+.contact-card:hover{transform:none}
+.contact-card.contact-zoom{animation-iteration-count:1}

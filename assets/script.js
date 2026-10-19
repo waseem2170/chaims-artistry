@@ -379,3 +379,81 @@ revealBookingCue();
   });
   revealMenu();
 })();
+
+// Slide the decorative powder image in once; keep the cards in front.
+(() => {
+ const section = document.querySelector('#appointments');
+ if (!section || reducedMotion.matches || !('IntersectionObserver' in window)) return;
+ section.classList.add('powder-image-ready');
+ const observer = new IntersectionObserver(entries => {
+   if (entries.some(entry => entry.isIntersecting)) {
+     section.classList.add('powder-image-visible');
+     observer.disconnect();
+   }
+ }, {rootMargin:'0px 0px -15% 0px', threshold:0});
+ observer.observe(section);
+})();
+
+// The calendar and subtitle reveal once; only the lock follows scrolling.
+(() => {
+ const card=document.querySelector('.secure-date');
+ const icon=card?.querySelector('.secure-calendar');
+ const lock=card?.querySelector('.reservation-lock');
+ const shackle=card?.querySelector('.lock-shackle');
+ if(!lock)return;
+ if('IntersectionObserver' in window&&!reducedMotion.matches){
+   card.classList.add('reveal-ready');
+   const observer=new IntersectionObserver(entries=>{
+     if(entries.some(e=>e.isIntersecting)){card.classList.add('reveal-visible');observer.disconnect();}
+   },{rootMargin:'0px 0px -12% 0px'});observer.observe(icon);
+ }
+ let frame=0,last=0,current=null,target=0,dirty=true;
+ function render(time){
+   frame=0;
+   if(dirty){const r=icon.getBoundingClientRect();target=reducedMotion.matches?1:Math.max(0,Math.min(1,(innerHeight*.85-r.top)/(innerHeight*.35)));dirty=false;}
+   const dt=last?Math.min(64,time-last):16.67;last=time;
+   if(current===null||reducedMotion.matches)current=target;
+   else current+=(target-current)*(1-Math.exp(-dt/90));
+   const moving=Math.abs(target-current)>.0005;if(!moving)current=target;
+   lock.setAttribute('transform',`translate(182 ${20+current*135})`);
+   const closing=Math.max(0,Math.min(1,(current-.65)/.35));
+   shackle.setAttribute('transform',`translate(0 ${-9*(1-closing)}) rotate(${-24*(1-closing)} 10 34)`);
+   if(moving)frame=requestAnimationFrame(render);else last=0;
+ }
+ function schedule(){dirty=true;if(!frame)frame=requestAnimationFrame(render);}
+ window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);
+ reducedMotion.addEventListener('change',schedule);schedule();
+})();
+
+// Highlight the nearest visible service on mobile only.
+(() => {
+ const cards=[...document.querySelectorAll('.service-card')];let frame=0;
+ function render(){
+   frame=0;let nearest=-1,distance=Infinity;
+   if(window.matchMedia('(max-width:700px)').matches){
+     const viewport=window.innerHeight;
+     cards.forEach((card,index)=>{const rect=card.getBoundingClientRect();
+       if(rect.bottom>0&&rect.top<viewport){const d=Math.abs(rect.top+rect.height/2-viewport/2);if(d<distance){distance=d;nearest=index;}}
+     });
+   }
+   cards.forEach((card,index)=>card.classList.toggle('service-current',index===nearest));
+ }
+ function schedule(){if(!frame)frame=requestAnimationFrame(render);}
+ window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);schedule();
+})();
+// Queue visible social tiles left to right; never replay a tile on return.
+(() => {
+ const cards=[...document.querySelectorAll('.contact-card')];
+ if(reducedMotion.matches||!('IntersectionObserver' in window))return;
+ let nextStart=0;
+ const observer=new IntersectionObserver(entries=>{
+   const incoming=entries.filter(e=>e.isIntersecting && e.target.dataset.zoomPlayed !== 'true').sort((a,b)=>cards.indexOf(a.target)-cards.indexOf(b.target));
+   incoming.forEach(entry=>{
+     entry.target.dataset.zoomPlayed = 'true';
+     const now=performance.now();const start=Math.max(now,nextStart);nextStart=start+850;
+     entry.target.style.animationDelay=`${start-now}ms`;
+     entry.target.classList.add('contact-zoom');observer.unobserve(entry.target);
+     entry.target.addEventListener('animationend',()=>{entry.target.classList.remove('contact-zoom');entry.target.style.removeProperty('animation-delay');},{once:true});
+   });
+ },{threshold:.5});cards.forEach(card=>observer.observe(card));
+})();
