@@ -312,3 +312,70 @@ if (experienceSection && 'IntersectionObserver' in window && !reducedMotion.matc
   window.addEventListener('pageshow', scheduleFooterMenu);
   scheduleFooterMenu();
 })();
+
+// Move the mobile controls out of the header to avoid Safari fixed-position
+// interactions with header animations. Reuse the same accessible controls.
+const mobileMenuRoot = document.createElement('div');
+mobileMenuRoot.className = 'mobile-menu-root';
+document.body.appendChild(mobileMenuRoot);
+const mobileMenuQuery = window.matchMedia('(max-width:700px)');
+function placeNavigation() {
+  setMenuOpen(false);
+  const parent = mobileMenuQuery.matches ? mobileMenuRoot : introHeader;
+  parent.append(toggle, navigation);
+}
+mobileMenuQuery.addEventListener('change', placeNavigation);
+placeNavigation();
+// Attention cue once, after both page loading and the intro have completed.
+let pageReady = document.readyState === 'complete';
+let introReady = !document.querySelector('.logo-intro') || reducedMotion.matches;
+function revealBookingCue() {
+  if (pageReady && introReady) document.body.classList.add('intro-complete');
+}
+window.addEventListener('load', () => { pageReady = true; revealBookingCue(); });
+signatureIntro?.addEventListener('animationend', event => {
+  if (event.target === signatureIntro && event.animationName === 'logo-intro-finish') {
+    introReady = true; revealBookingCue();
+  }
+});
+revealBookingCue();
+
+// Fade mobile navigation after two seconds of inactivity; keep an open or
+// keyboard-focused menu available until the visitor finishes using it.
+(() => {
+  let idleTimer;
+  function armIdleTimer() {
+    clearTimeout(idleTimer);
+    if (!mobileMenuQuery.matches) {
+      document.body.classList.remove('menu-idle');
+      return;
+    }
+    idleTimer = setTimeout(() => {
+      const focused = mobileMenuRoot.contains(document.activeElement) && document.activeElement.matches(':focus-visible');
+      if (!navigation.classList.contains('open') && !focused) {
+        document.body.classList.add('menu-idle');
+      }
+    }, 2000);
+  }
+  function revealMenu() {
+    document.body.classList.remove('menu-idle');
+    armIdleTimer();
+  }
+  window.addEventListener('scroll', revealMenu, {passive:true});
+  window.addEventListener('touchmove', revealMenu, {passive:true});
+  window.addEventListener('pointermove', revealMenu, {passive:true});
+  window.addEventListener('pageshow', revealMenu);
+  mobileMenuRoot.addEventListener('click', armIdleTimer);
+  mobileMenuRoot.addEventListener('focusin', revealMenu);
+  mobileMenuRoot.addEventListener('focusout', armIdleTimer);
+  // Keyboard users must be able to reach navigation even after it faded out.
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Tab') revealMenu();
+    else if (event.key === 'Escape') armIdleTimer();
+  });
+  mobileMenuQuery.addEventListener('change', revealMenu);
+  signatureIntro?.addEventListener('animationend', event => {
+    if (event.target === signatureIntro) revealMenu();
+  });
+  revealMenu();
+})();
