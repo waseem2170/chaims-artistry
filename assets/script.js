@@ -484,3 +484,17 @@ revealBookingCue();
  window.addEventListener('resize',schedule);
  reducedMotion.addEventListener('change',schedule);schedule();
 })();
+
+// Let the mobile hero artwork continue behind the header; restore its backdrop on scroll.
+(() => {
+ const hero=document.querySelector('.editorial-hero');
+ if(!hero)return;
+ let pending=false;
+ function update(){
+  pending=false;
+  document.body.classList.toggle('hero-header-clear',window.matchMedia('(max-width:700px)').matches && window.scrollY<40);
+ }
+ function schedule(){if(!pending){pending=true;requestAnimationFrame(update);}}
+ window.addEventListener('scroll',schedule,{passive:true});
+ window.addEventListener('resize',schedule);update();
+})();

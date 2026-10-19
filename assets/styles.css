@@ -498,7 +498,7 @@ body.intro-complete .beauty-book::after{animation:booking-sheen-repeat 2s ease i
 .hero-makeup-wrap{position:absolute;left:0;top:0;width:38%;height:100%;pointer-events:none;z-index:0;overflow:visible}
 .hero-makeup-texture{display:block;width:100%;height:100%;object-fit:cover;object-position:left center;transform-origin:left center;animation:copper-drift 14s ease-in-out infinite alternate;will-change:transform}
 @keyframes copper-drift{from{transform:translate3d(-5px,-6px,0) scale(1.02)}to{transform:translate3d(5px,9px,0) scale(1.055)}}
-body:has(.logo-intro) .hero-makeup-wrap{animation:copper-enter 1.8s cubic-bezier(.22,.61,.36,1) 2.3s both}
+.editorial-hero .hero-makeup-wrap{animation:copper-enter 3.6s cubic-bezier(.22,.61,.36,1) 2.3s both}
 @keyframes copper-enter{from{opacity:0;transform:translateX(-45px)}to{opacity:1;transform:translateX(0)}}
 .editorial-hero .hero-inner{margin-left:18%;width:76%;max-width:1050px;padding:180px 28px 110px}
 .hero.editorial-hero h1.beauty-title{font-size:clamp(72px,7.8vw,120px);line-height:1.05;font-weight:400;letter-spacing:-.025em}
@@ -558,3 +558,33 @@ body.intro-complete .editorial-hero .hero-cta.beauty-book::after{display:block;a
 }
 
 @media(prefers-reduced-motion:reduce){.editorial-hero .hero-makeup-texture{transform:none}}
+
+/* Continuous gold outline, including the reservation card’s lower edge. */
+.reservation.secure-date{border:1px solid #dfb58e;box-shadow:inset 0 0 0 1px rgba(223,181,142,.12)}
+.secure-date .secure-rule{background:#dfb58e;flex-shrink:0}
+
+/* Transparent swatches retain the reference's layered left-edge composition. */
+.editorial-hero .hero-makeup-wrap{width:34%;max-width:600px;aspect-ratio:auto;mask-image:none;-webkit-mask-image:none}
+.editorial-hero .hero-makeup-texture{object-fit:fill}
+@media(max-width:700px){.editorial-hero .hero-makeup-wrap{width:38%;max-width:none}}
+
+/* Mobile reference: show all four swatches rather than a cropped sliver. */
+@media(max-width:700px){
+ .editorial-hero .hero-makeup-wrap{
+  width:55%;max-width:none;overflow:hidden;
+  mask-image:none;-webkit-mask-image:none;
+ }
+ .editorial-hero .hero-makeup-texture{object-fit:fill;object-position:left center}
+ .editorial-hero .hero-inner{margin-left:32%;width:66%;padding-left:8px;padding-right:12px}
+ .hero.editorial-hero h1.beauty-title{font-size:clamp(40px,9.7vw,68px)}
+ .editorial-hero .hero-specialties{font-size:8px;letter-spacing:.1em}
+ .editorial-hero .beauty-description{font-size:clamp(18px,4.6vw,22px)}
+}
+
+/* Natural image sizing: one dimension only, so mobile swatches cannot stretch. */
+@media(max-width:700px){
+ .editorial-hero .hero-makeup-wrap{width:43%;height:100%;overflow:hidden}
+ .editorial-hero .hero-makeup-texture{position:absolute;top:0;left:-22vw;width:90vw;max-width:none;height:auto;object-fit:contain;object-position:left top}
+ body.hero-header-clear .hero-nav{background:transparent;border-bottom-color:transparent}
+ .hero-nav{transition:background .3s ease,border-color .3s ease}
+}
