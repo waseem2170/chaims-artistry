@@ -499,17 +499,17 @@ revealBookingCue();
  window.addEventListener('resize',schedule);update();
 })();
 
-// Reveal the foreground arc once, after the intro and when its position is visible.
+// Start the arch as soon as the intro logo lands in the header.
 (() => {
  const swipe=document.querySelector('.hero-bottom-swipe');
- if(!swipe||reducedMotion.matches||!('IntersectionObserver' in window))return;
+ const first=document.querySelector('.intro-logo-position');
+ if(!swipe||reducedMotion.matches)return;
  swipe.classList.add('swipe-ready');
- let visible=false,played=false,imageReady=false;
- const start=()=>{if(!played&&visible&&imageReady&&document.body.classList.contains('intro-complete')){played=true;swipe.classList.add('swipe-visible');observer.disconnect();introObserver.disconnect();}};
- const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;start();},{threshold:.15});
- const introObserver=new MutationObserver(start);
- introObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
- observer.observe(swipe);
+ let firstDone=false,imageReady=false,played=false;
+ const start=()=>{if(!played&&firstDone&&imageReady){played=true;swipe.classList.add('swipe-visible');}};
+ const finish=()=>{firstDone=true;start();};
+ const animation=first?.getAnimations().find(a=>a.animationName==='logo-rise');
+ if(animation)animation.finished.then(finish).catch(finish);else finish();
  const img=swipe.querySelector('img');
  const ready=()=>{imageReady=true;start();};
  if(img.decode)img.decode().then(ready).catch(ready);

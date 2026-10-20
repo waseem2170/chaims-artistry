@@ -644,7 +644,7 @@ body.header-scrolled .hero-nav{background:#270407;border-bottom-color:transparen
 .editorial-hero .hero-bottom-swipe{position:absolute;left:-3%;bottom:-100px;width:min(49%,700px);z-index:1;pointer-events:none}
 .hero-bottom-swipe img{display:block;width:100%;height:auto;transform-origin:left bottom}
 .hero-bottom-swipe.swipe-ready img{opacity:0;transform:translate(-45%,-20%) rotate(-24deg)}
-.hero-bottom-swipe.swipe-visible img{animation:bottom-swipe-arc 2.8s cubic-bezier(.16,.5,.3,1) both}
+.hero-bottom-swipe.swipe-visible img{animation:bottom-swipe-arc 1.6s cubic-bezier(.16,.5,.3,1) both}
 @keyframes bottom-swipe-arc{from{opacity:0;transform:translate3d(-45%,-20%,0) rotate(-24deg)}to{opacity:1;transform:translate3d(0,0,0) rotate(0)}}
 .editorial-hero .hero-inner{position:relative;z-index:2}
 @media(max-width:700px){.editorial-hero .hero-bottom-swipe{width:76%;left:-8%;bottom:-90px}}
