@@ -498,3 +498,20 @@ revealBookingCue();
  window.addEventListener('scroll',schedule,{passive:true});
  window.addEventListener('resize',schedule);update();
 })();
+
+// Reveal the foreground arc once, after the intro and when its position is visible.
+(() => {
+ const swipe=document.querySelector('.hero-bottom-swipe');
+ if(!swipe||reducedMotion.matches||!('IntersectionObserver' in window))return;
+ swipe.classList.add('swipe-ready');
+ let visible=false,played=false,imageReady=false;
+ const start=()=>{if(!played&&visible&&imageReady&&document.body.classList.contains('intro-complete')){played=true;swipe.classList.add('swipe-visible');observer.disconnect();introObserver.disconnect();}};
+ const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;start();},{threshold:.15});
+ const introObserver=new MutationObserver(start);
+ introObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
+ observer.observe(swipe);
+ const img=swipe.querySelector('img');
+ const ready=()=>{imageReady=true;start();};
+ if(img.decode)img.decode().then(ready).catch(ready);
+ else if(img.complete)ready();else img.addEventListener('load',ready,{once:true});
+})();

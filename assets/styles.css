@@ -617,3 +617,39 @@ body.header-scrolled .hero-nav{background:#270407;border-bottom-color:transparen
 .hero.velvet-hero.beauty-hero.editorial-hero{overflow:visible;z-index:1}
 .editorial-hero .hero-makeup-wrap{overflow:visible}
 .welcome .section-wrap{position:relative;z-index:2}
+
+/* Aligned title lines, a compact luminous divider, and less space below the hero. */
+.hero.editorial-hero h1.beauty-title{width:fit-content;max-width:100%;margin-inline:auto;text-align:left}
+.hero.velvet-hero.beauty-hero.editorial-hero{min-height:max(740px,90svh)}
+.editorial-hero .hero-inner{padding-bottom:65px}
+.editorial-hero .beauty-divider{height:58px;margin:22px auto}
+.editorial-hero .beauty-divider::after{animation:hero-star-glow 3s ease-in-out infinite}
+.editorial-hero .beauty-description{margin-top:0}
+@keyframes hero-star-glow{0%,100%{filter:drop-shadow(0 0 2px #efd1aa);opacity:.8}50%{filter:drop-shadow(0 0 7px #f7d5a5);opacity:1}}
+.experience-corner::before,.experience-corner::after{transition-duration:2.6s}
+.corner-bottom::before,.corner-bottom::after{transition-delay:.5s}
+@media(max-width:700px){
+ .hero.velvet-hero.beauty-hero.editorial-hero{min-height:max(690px,90svh)}
+ .editorial-hero .hero-inner{padding-bottom:60px}
+ .editorial-hero .beauty-divider{height:50px;margin:20px auto}
+}
+
+/* Separate gold strokes leave breathing room around the luminous star. */
+.editorial-hero .beauty-divider{width:20px;height:84px;margin:24px auto;background:linear-gradient(#dfb58e,#dfb58e) center top / 1px 28px no-repeat,linear-gradient(#dfb58e,#dfb58e) center bottom / 1px 28px no-repeat}
+.editorial-hero .beauty-divider::after{width:12px;height:18px;left:4px;top:33px;animation:none;filter:none;background:#f7dbb6}
+.editorial-hero .beauty-divider::before{content:'';position:absolute;width:30px;height:30px;left:-5px;top:27px;background:radial-gradient(ellipse,rgba(255,218,165,.5),rgba(239,185,120,.16) 35%,transparent 70%);animation:divider-halo 3s ease-in-out infinite;pointer-events:none}
+@keyframes divider-halo{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+
+/* Independent foreground swipe, revealed once along a soft downward arc. */
+.editorial-hero .hero-bottom-swipe{position:absolute;left:-3%;bottom:-100px;width:min(49%,700px);z-index:1;pointer-events:none}
+.hero-bottom-swipe img{display:block;width:100%;height:auto;transform-origin:left bottom}
+.hero-bottom-swipe.swipe-ready img{opacity:0;transform:translate(-45%,-20%) rotate(-24deg)}
+.hero-bottom-swipe.swipe-visible img{animation:bottom-swipe-arc 2.8s cubic-bezier(.16,.5,.3,1) both}
+@keyframes bottom-swipe-arc{from{opacity:0;transform:translate3d(-45%,-20%,0) rotate(-24deg)}to{opacity:1;transform:translate3d(0,0,0) rotate(0)}}
+.editorial-hero .hero-inner{position:relative;z-index:2}
+@media(max-width:700px){.editorial-hero .hero-bottom-swipe{width:76%;left:-8%;bottom:-90px}}
+@media(prefers-reduced-motion:reduce){.hero-bottom-swipe.swipe-ready img{opacity:1;transform:none}}
+
+/* An arched makeup ribbon enters from the left and bends down across the edge. */
+.editorial-hero .hero-bottom-swipe{width:min(55%,790px);left:-22%;bottom:-100px}
+@media(max-width:700px){.editorial-hero .hero-bottom-swipe{width:95%;left:-40%;bottom:-80px}}
