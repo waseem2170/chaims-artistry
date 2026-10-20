@@ -469,7 +469,7 @@ revealBookingCue();
   if(dirty){
    const rect=hero.getBoundingClientRect();
    const progress=Math.max(0,Math.min(1,-rect.top/Math.max(1,rect.height)));
-   target=reducedMotion.matches?0:progress*Math.min(280,rect.height*.25);
+   target=reducedMotion.matches?0:progress*Math.min(65,rect.height*.07);
    dirty=false;
   }
   const dt=last?Math.min(64,now-last):16;last=now;
