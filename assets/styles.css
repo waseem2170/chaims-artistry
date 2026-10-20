@@ -653,3 +653,7 @@ body.header-scrolled .hero-nav{background:#270407;border-bottom-color:transparen
 /* An arched makeup ribbon enters from the left and bends down across the edge. */
 .editorial-hero .hero-bottom-swipe{width:min(55%,790px);left:-22%;bottom:-100px}
 @media(max-width:700px){.editorial-hero .hero-bottom-swipe{width:95%;left:-40%;bottom:-80px}}
+
+/* Broader, shallow foreground swipe overlaps the final bronze swatch. */
+.editorial-hero .hero-bottom-swipe{width:min(49%,700px);left:-7%;bottom:-65px;z-index:1}
+@media(max-width:700px){.editorial-hero .hero-bottom-swipe{width:82%;left:-10%;bottom:-45px}}
