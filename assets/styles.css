@@ -670,3 +670,16 @@ body.intro-complete .hero-just::after{animation:just-underline 2.6s cubic-bezier
 body.intro-complete .hero-just::after{animation:just-underline-ink 1.6s ease-out .1s both}
 @keyframes just-underline-ink{from{clip-path:inset(0 100% -.2em 0)}to{clip-path:inset(0 0 -.2em 0)}}
 @media(prefers-reduced-motion:reduce){.hero-just::after{clip-path:none}}
+
+/* Fit the complete desktop introduction within short and scaled laptop windows. */
+@media(min-width:701px){
+ .hero.velvet-hero.beauty-hero.editorial-hero{min-height:100svh}
+ .editorial-hero .hero-inner{min-width:0;padding-top:clamp(132px,17svh,180px);padding-bottom:clamp(24px,5svh,65px)}
+ .hero.editorial-hero h1.beauty-title{font-size:clamp(40px,min(8.5vw,12svh),144px);line-height:1.05}
+ .editorial-hero .beauty-title>span{white-space:nowrap}
+ .editorial-hero .beauty-divider{flex-shrink:0;height:clamp(40px,9svh,84px);margin:clamp(10px,2.3svh,24px) auto;background-size:1px calc((100% - 32px)/2)}
+ .editorial-hero .beauty-divider::after{top:calc(50% - 9px)}
+ .editorial-hero .beauty-divider::before{top:calc(50% - 15px)}
+ .editorial-hero .beauty-description{font-size:clamp(18px,min(2.4vw,3.5svh),30px);margin:0 auto clamp(16px,3svh,30px)}
+ .editorial-hero .hero-cta.beauty-book{flex-shrink:0}
+}
