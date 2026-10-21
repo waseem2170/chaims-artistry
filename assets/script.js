@@ -21,7 +21,6 @@ document.addEventListener('keydown', event => {
 const prepTimeline = document.querySelector('.prep-grid');
 const prepSteps = [...prepTimeline.querySelectorAll('.prep-step')];
 const prepTriggers = [...prepTimeline.querySelectorAll('.prep-trigger')];
-let selectedPrepTile = null;
 function setPrepOpen(trigger, open) {
   trigger.setAttribute('aria-expanded', String(open));
   document.getElementById(trigger.getAttribute('aria-controls')).hidden = !open;
@@ -31,7 +30,6 @@ prepTriggers.forEach(trigger => {
   trigger.addEventListener('click', () => {
     const open = trigger.getAttribute('aria-expanded') !== 'true';
     prepTriggers.forEach(other => setPrepOpen(other, other === trigger && open));
-    selectedPrepTile = trigger.closest('.prep-step');
     updatePrepProgress();
     // Center the tile after the accordion has its final layout height.
     requestAnimationFrame(() => {
@@ -65,16 +63,21 @@ function renderPrepFrame(time) {
   const mobile = window.innerWidth <= 700;
   // Complete every layout read before writing any styles.
   const offsets = prepSteps.map(step => step.offsetTop + step.offsetHeight / 2);
-  const selectedIndex = prepSteps.indexOf(selectedPrepTile);
-  const lineHeight = selectedIndex >= 0 ? offsets[selectedIndex] : viewport * 0.78 - rect.top;
+  const focusY = viewport / 2;
+  const lineHeight = focusY - rect.top;
   const progress = clampPrep(lineHeight / Math.max(1, rect.height));
   const centers = offsets.map(offset => rect.top + offset);
-  const lineTip = rect.top + progress * rect.height;
   let activeIndex = -1;
-  if (progress > 0 && progress < 1) {
-    activeIndex = centers.reduce((nearest, center, index) =>
-      Math.abs(center - lineTip) < Math.abs(centers[nearest] - lineTip) ? index : nearest, 0);
-  }
+  let nearestDistance = Infinity;
+  const heights = prepSteps.map(step => step.offsetHeight);
+  centers.forEach((center, index) => {
+    const visible = center + heights[index] / 2 > 0 && center - heights[index] / 2 < viewport;
+    const distance = Math.abs(center - focusY);
+    if (visible && distance < nearestDistance) {
+      nearestDistance = distance;
+      activeIndex = index;
+    }
+  });
   const blend = reducedMotion.matches ? 1 : 1 - Math.exp(-elapsed / 65);
   let settling = false;
   prepProgress.style.transform = `scaleY(${progress})`;
@@ -95,20 +98,7 @@ function renderPrepFrame(time) {
   if (settling) updatePrepProgress();
   else prepLastTime = 0;
 }
-// Manual scrolling resumes the scroll-following line after a tile selection.
-function releasePrepSelection() {
-  if (!selectedPrepTile) return;
-  selectedPrepTile = null;
-  updatePrepProgress();
-}
-window.addEventListener('wheel', releasePrepSelection, { passive: true });
-window.addEventListener('touchmove', releasePrepSelection, { passive: true });
-window.addEventListener('keydown', event => {
-  if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)
-      && !event.target.closest('button, input, textarea, select, [contenteditable]')) {
-    releasePrepSelection();
-  }
-});
+// Always follow the viewport centre, including while an accordion centres itself.
 window.addEventListener('scroll', updatePrepProgress, { passive: true });
 window.addEventListener('resize', updatePrepProgress);
 reducedMotion.addEventListener('change', updatePrepProgress);
@@ -410,10 +400,10 @@ revealBookingCue();
  let frame=0,last=0,current=null,target=0,dirty=true;
  function render(time){
    frame=0;
-   if(dirty){const r=icon.getBoundingClientRect();target=reducedMotion.matches?1:Math.max(0,Math.min(1,(innerHeight*.85-r.top)/(innerHeight*.35)));dirty=false;}
+   if(dirty){const r=icon.getBoundingClientRect();target=reducedMotion.matches?1:Math.max(0,Math.min(1,(innerHeight*.9-r.top)/(innerHeight*.5)));dirty=false;}
    const dt=last?Math.min(64,time-last):16.67;last=time;
    if(current===null||reducedMotion.matches)current=target;
-   else current+=(target-current)*(1-Math.exp(-dt/90));
+   else current+=(target-current)*(1-Math.exp(-dt/170));
    const moving=Math.abs(target-current)>.0005;if(!moving)current=target;
    lock.setAttribute('transform',`translate(182 ${20+current*135})`);
    const closing=Math.max(0,Math.min(1,(current-.65)/.35));
